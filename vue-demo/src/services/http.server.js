@@ -1,23 +1,36 @@
 const axios = require('axios');
 
 
-function warpAxios (method){
+function warpAxios (method,url,options){
+    options = options||{};
+    options.url = url;
     options.method = method;
-    return axios(options);
+    
+    return new Promise((resolve,reject)=>{
+        axios(options).then(function(response){
+            if(response.data.isSuccess){
+                resolve(response.data);
+            }else{
+                reject(response.data.msg);
+            }
+        },function(err){
+            reject(err);
+        })
+    }) ;
 }
 
 
 export default {
-    get(options) {
-        return warpAxios('get',options);
+    get(url,options) {
+        return warpAxios('get',url,options);
     },
-    post(options) {
-        return warpAxios('post',options);
+    post(url,options) {
+        return warpAxios('post',url,options);
     },
-    put(options) {
-        return warpAxios('put',options);
+    put(url,options) {
+        return warpAxios('put',url,options);
     },
-    delete(options) {
-        return warpAxios('delete',options);
+    delete(url,options) {
+        return warpAxios('delete',url,options);
     }
 }

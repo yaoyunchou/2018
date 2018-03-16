@@ -4,7 +4,7 @@
       <div class="logo">小飞鱼设计</div>
       <router-link class="el-icon-arrow-left back_index" to="/admin">返回首页</router-link>
     </header>
-    <el-form v-show="isLogin" :model="ruleForm1" status-icon :rules="rules1" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+    <el-form v-show="isLogin" :model="ruleForm1" status-icon :rules="rules1" ref="ruleForm1" label-width="100px" class="demo-ruleForm">
       <el-form-item label="用户名" prop="name">
           <el-input v-model="ruleForm1.name"></el-input>
       </el-form-item>
@@ -30,12 +30,13 @@
       <el-form-item label="手机" prop="phone">
           <el-input v-model="ruleForm2.phone"></el-input>
       </el-form-item>
-      <el-form-item label="验证码" prop="code">
+      <!-- 还没有开放这个功能 -->
+      <!-- <el-form-item label="验证码" prop="code">
         <el-row>
           <el-col :span="14"> <el-input v-model="ruleForm2.code"></el-input></el-col>
           <el-col :span="10"> <el-button class="code">获取验证</el-button></el-col>
         </el-row>          
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="密码" prop="pass">
           <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
       </el-form-item>
@@ -47,7 +48,7 @@
           <el-input v-model="ruleForm2.age"></el-input>
       </el-form-item>
       <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm2')">登陆</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm2')">注册</el-button>
           <el-button @click="resetForm('ruleForm2')">重置</el-button>
           <span class="register fr" @click="regist()">{{isLogin?"注册":"登陆"}}</span>
       </el-form-item>
@@ -57,7 +58,8 @@
 
 
 <script>
-const $http = require('@/services/http.server');
+import { mapState, mapActions, mapMutations } from "vuex";
+
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -65,14 +67,14 @@ export default {
         callback(new Error("请输入密码"));
       } else {
         if (this.ruleForm2.checkPass !== "") {
-          this.$refs.ruleForm2.validateField("checkPass");
+          this.$refs.ruleForm1.validateField("checkPass");
         }
         callback();
       }
     };
-    var checkcode = (rule,value,callback) => {
-
-    }
+    var checkcode = (rule, value, callback) => {
+      callback();
+    };
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
@@ -96,26 +98,52 @@ export default {
         email: "",
         age: ""
       },
-       rules1: {
-        name:[ { required: true, message: '请输入用户名', trigger: 'blur' }],
-        pass: [{ required: true, message: '请输入密码', trigger: 'blur' },{ validator: validatePass, trigger: "blur" }],
+      rules1: {
+        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        pass: [{ required: true, message: "请输入密码", trigger: "blur" }]
         // code: [{ required: true, message: '请输入验证码', trigger: 'blur' },{ validator: checkcode, trigger: "blur" }]
       },
       rules2: {
-        name:[ { required: true, message: '请输入用户名', trigger: 'blur' }],
-        pass: [{ required: true, message: '请输入密码', trigger: 'blur' },{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ required: true, message: '请再次输入密码', trigger: 'blur' },{ validator: validatePass2, trigger: "blur" }],
-        phone: [{ required: true, message: '请输入手机', trigger: 'blur' },{ validator: checkcode, trigger: "blur" }],
-        code: [{ required: true, message: '请输入验证码', trigger: 'blur' },{ validator: checkcode, trigger: "blur" }]        
+        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        pass: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        checkPass: [
+          { required: true, message: "请再次输入密码", trigger: "blur" },
+          { validator: validatePass2, trigger: "blur" }
+        ],
+        phone: [
+          { required: true, message: "请输入手机", trigger: "blur" },
+          { validator: checkcode, trigger: "blur" }
+        ],
+       // code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       },
-      isLogin:true
+      isLogin: true
     };
   },
   methods: {
+    ...mapActions("user", ["rigister"]),
+    ...mapActions(["login"]),
     submitForm(formName) {
+      let self = this;
+
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert("submit!");
+          if (formName === "ruleForm1") {
+            self.login({
+              nikeName: self.ruleForm1.name,
+              psw: self.ruleForm1.pass
+            });
+          } else {
+            self.rigister({
+              nikeName: self.ruleForm2.name,
+              psw: self.ruleForm2.pass,
+              phone: self.ruleForm2.phone,
+              age:self.ruleForm2.age
+            }).then(function(data){
+              console.log(data);
+            });
+          }
+
+      
         } else {
           console.log("error submit!!");
           return false;
@@ -125,7 +153,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    regist(){
+    regist() {
       this.isLogin = !this.isLogin;
     }
   }

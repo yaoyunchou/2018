@@ -1,35 +1,38 @@
-const $http = require()
+import http from '../../services/http.server'
+// initial state
+// shape: [{ id, quantity }]
+const state = {
 
-/**
- * 用户
- * 1.用户的增删改查
- * 
- */
+  checkoutStatus: null
+}
 
- const state = {
+// getters
+const getters = {
 
- }
+}
 
- //getter
- const getter = {
-
- }
-
-//actions
-
+// actions
 const actions = {
-
+  async rigister({ commit, state }, data) {
+    let body = await http.post('/api/user/user',{data:data});
+    if(body.isSuccess){
+        return body.data;
+    }else{
+        return body;
+    }
+    
+  }
 }
 
-//mutaions
+// mutations
 const mutations = {
-
+  
 }
-
 
 export default {
-    state,
-    actions,
-    getter,
-    mutations
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations
 }

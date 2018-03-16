@@ -7,6 +7,7 @@ class UserController extends BasController {
         this.addRouter('get', '/list', this.handlerwarp(this.getUsers));
         this.addRouter('get', '/user/:id', this.handlerwarp(this.getItem));
         this.addRouter('post', '/user', this.handlerwarp(this.createItem));
+        this.addRouter('post', '/login', this.handlerwarp(this.createItem));
         
     }
 
@@ -26,6 +27,9 @@ class UserController extends BasController {
     }
     changeUser() {
 
+    }
+    login(){
+        
     }
 
 }
