@@ -1,7 +1,7 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
 const http = require('http');
-const https = require('https');
+//const https = require('https');
 const koalog4js = require('koa-log4');
 //统一日志,配置日志
 require('./logger');
@@ -40,4 +40,4 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 app.use(wxRouter.allowedMethods());
 http.createServer(app.callback()).listen(8090);
-https.createServer(app.callback()).listen(443);
+//https.createServer(app.callback()).listen(443);

@@ -53,7 +53,7 @@ module.exports = class basService {
                 pageNum: 1,
             }, searchOptions);
             let count = await this.DbModal.find(searchOptions.query).count();
-            let listData = await this.DbModal.find(searchOptions.query).skip((searchOptions.pageNum - 1) * searchOptions.pageSize).limit(searchOptions.pageSize)
+            let listData = await this.DbModal.find(searchOptions.query).skip((searchOptions.pageNum - 1) * searchOptions.pageSize).limit(searchOptions.pageSize);
             return {
                 isSuccess: true,
                 data: {
@@ -75,10 +75,10 @@ module.exports = class basService {
      */
     async getItem(id, expect = {}) {
         try {
-            let user = await this.DbModal.findById(id, expect);
+            let item = await this.DbModal.findById(id, expect);
             return {
                 isSuccess: true,
-                data: user
+                data: item
             };
         } catch (error) {
             return this.thorwError(error);

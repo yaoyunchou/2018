@@ -1,18 +1,28 @@
 /**
- * 用于
+ * 用于处理无状态的
  */
-const config = require('../config/wechat.config');
-const api = require('./wechat.api');
-const request = require('request');
 const Service = require('./_bas.service');
-const userSchema = require('../model/schemas/user.schema');
+const userServer = require('user.service');
+const tokenSchema = require('../model/schemas/token.schema');
 
-class User extends Service {
+class Token extends Service {
     constructor(name, schema) {
         super(name, schema);
     }
+    fetchToken() {
 
+    }
+    async getToken(options) {
+        let tokenInfo = await this.DbModal.find(options, {
+            userId: 1,
+            acces_token: 1
+        });
+        let userInfo =  userServer.getItem(tokenInfo.userId);
+        return {
+            ...userInfo,acces_token:tokenInfo.acces_token
+        };
+    }
 }
 
-const user = new User('User', userSchema);
+const user = new Token('Token', tokenSchema);
 module.exports = user;
