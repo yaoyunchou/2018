@@ -82,8 +82,9 @@ class Wechat {
         let start = Date.now();
         let data = await accessTokenServic.getAccessToken();
         ctx.response.body = data;
+        await next();
     }
-    async updateMenu(ctx) {
+    async updateMenu(ctx,next) {
         let accessToken = await accessTokenServic.getAccessToken();
         let url = await menu + 'access_token=' + accessToken.access_token;
         let menuData = {
@@ -116,6 +117,8 @@ class Wechat {
             console.log('body' + body);
             
         });
+        await next();
+      
     }
 }
 

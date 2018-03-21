@@ -73,9 +73,16 @@ module.exports = class basService {
     /**
      * 通过id查询
      */
-    async getItem(id, expect = {}) {
+    async getItem(options, expect = {}) {
         try {
-            let item = await this.DbModal.findById(id, expect);
+            let item = {};
+            if (options instanceof String) {
+                item = await this.DbModal.findById(options, expect);
+            } else {
+                item = await this.DbModal.find(options, expect);
+                item = item.length&&item[0];
+            }
+
             return {
                 isSuccess: true,
                 data: item

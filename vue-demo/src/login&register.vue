@@ -5,8 +5,8 @@
       <router-link class="el-icon-arrow-left back_index" to="/admin">返回首页</router-link>
     </header>
     <el-form v-show="isLogin" :model="ruleForm1" status-icon :rules="rules1" ref="ruleForm1" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="用户名" prop="name">
-          <el-input v-model="ruleForm1.name"></el-input>
+      <el-form-item label="手机" prop="phone">
+          <el-input v-model="ruleForm1.phone"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass">
           <el-input type="password" v-model="ruleForm1.pass" auto-complete="off"></el-input>
@@ -99,7 +99,7 @@ export default {
         age: ""
       },
       rules1: {
-        name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        phone: [{ required: true, message: "请输入手机", trigger: "blur" }],
         pass: [{ required: true, message: "请输入密码", trigger: "blur" }]
         // code: [{ required: true, message: '请输入验证码', trigger: 'blur' },{ validator: checkcode, trigger: "blur" }]
       },
@@ -110,27 +110,28 @@ export default {
           { required: true, message: "请再次输入密码", trigger: "blur" },
           { validator: validatePass2, trigger: "blur" }
         ],
-        phone: [
-          { required: true, message: "请输入手机", trigger: "blur" },
-          { validator: checkcode, trigger: "blur" }
-        ],
+        phone: [{ required: true, message: "请输入手机", trigger: "blur" }],
        // code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
       },
       isLogin: true
     };
   },
   methods: {
-    ...mapActions("user", ["rigister"]),
-    ...mapActions(["login"]),
+    ...mapActions("user", ["rigister","login"]),
+   //...mapActions(["login"]),
     submitForm(formName) {
       let self = this;
-
+      console.log(self.$router);
       this.$refs[formName].validate(valid => {
         if (valid) {
           if (formName === "ruleForm1") {
             self.login({
               nikeName: self.ruleForm1.name,
               psw: self.ruleForm1.pass
+            }).then(function(data){
+              if(data.isSuccess){
+                 self.$router.push({name: 'Admin'})
+              }
             });
           } else {
             self.rigister({

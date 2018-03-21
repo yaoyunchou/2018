@@ -15,10 +15,7 @@ export default new Vuex.Store({
       access_token:''
   },
   actions:{
-    async login({state},data){
-        let body =  http.post('/api/user/login',data);
-        return body;
-    }
+    
   },
   mutations:{
 

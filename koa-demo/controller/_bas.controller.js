@@ -38,19 +38,26 @@ class BasController {
         let backData;
         try {
             if (isAsync) {
-                return async (ctx) => {
+                return async (ctx,next) => {
                     let backData = await handler.call(this, ctx);
                    
                     if (backData.isSuccess) {
                         backData.msg = msg || '获取数据成功!';
                         this.reply(ctx, backData);
-                    } else {
+                    } else if(backData.err.code ===11000) {
+                        
+                        this.reply(ctx, {
+                            isSuccess: false,
+                            msg: '信息已被使用'
+                        },500);
+                    }else{
+                        
                         this.reply(ctx, {
                             isSuccess: false,
                             msg: backData.msg||'接口出错了!'
-                        });
+                        },500);
                     }
-
+                    await next();
                 };
             } else {
                 backData = handler.apply(this, arguments);
@@ -70,13 +77,13 @@ class BasController {
         }
     }
     reply(ctx, body, type = 'json', status = 200) {
-
+        ctx.response.status = status;
         body = body || {
             data: '',
             msg: '',
             isSuccess: true
         };
-        ctx.response.status = status;
+       
         ctx.response.type = type;
         ctx.response.body = body;
     }
