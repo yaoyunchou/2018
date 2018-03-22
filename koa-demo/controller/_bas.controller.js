@@ -98,7 +98,7 @@ class BasController {
      * 默认的常用方法crud
      */
     getItem(options) {
-        return this.service.getItem(options.params.id, {
+        return this.service.getItem({_id:options.params.id}, {
             nikeName: 1,
             phone: 1
         });
