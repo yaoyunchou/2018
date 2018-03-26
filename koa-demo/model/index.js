@@ -1,3 +1,6 @@
+
+const { DB_HOST,DB_DATABASE} = require('../config');
+
 /**
  * 
  */
@@ -6,8 +9,9 @@ const {
     log4js
 } = require('../logger');
 const logger = log4js.getLogger('mongodb');
+const DB_URL = 'mongodb://'+DB_HOST+'/'+DB_DATABASE;
 try {
-    mongoose.connect('mongodb://localhost/yao');
+    mongoose.connect(DB_URL);
 } catch (error) {
     logger.error('mongodb', error.message);
 }

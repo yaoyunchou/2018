@@ -2,7 +2,7 @@
   <div>
     <header class="login-header">
       <div class="logo">小飞鱼设计</div>
-      <router-link class="el-icon-arrow-left back_index" to="/admin">返回首页</router-link>
+      <!-- <router-link class="el-icon-arrow-left back_index" to="/admin">返回首页</router-link> -->
     </header>
     <el-form v-show="isLogin" :model="ruleForm1" status-icon :rules="rules1" ref="ruleForm1" label-width="100px" class="demo-ruleForm">
       <el-form-item label="手机" prop="phone">

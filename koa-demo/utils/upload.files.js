@@ -2,16 +2,16 @@ const fs = require('fs');
 const path = require('path');
 const qiniu = require('qiniu');
 const {
-    accessKey,
-    secretKey
-} = require('../config/qiniu.config');
-qiniu.conf.ACCESS_KEY = accessKey;
-qiniu.conf.SECRET_KEY = secretKey;
+    QINIU_AccessKey,
+    QINIU_SecretKey
+} = require('../config');
+qiniu.conf.ACCESS_KEY = QINIU_AccessKey;
+qiniu.conf.SECRET_KEY = QINIU_SecretKey;
 module.exports = async function (ctx, next) {
     this.req = ctx.req, this.res = ctx.res;
     //构建上传策略函数
     function uptoken(bucket, key) {
-        let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+        let mac = new qiniu.auth.digest.Mac(QINIU_AccessKey, QINIU_SecretKey);
         var putPolicy = new qiniu.rs.PutPolicy({
             scope: bucket
         });
