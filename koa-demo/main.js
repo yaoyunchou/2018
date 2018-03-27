@@ -12,10 +12,19 @@ const router = require('./controller');
 //监控微信的返回,这里微信是直接返回根目录的'/'的所以单独引入
 const wxRouter = require('./controller/wx.controller');
 
+const auth = require('./app.auth');
+
 //引入数据库
 require('./model');
 //TODO 为什么这里要引用
 //const Router = require('koa-router');
+// 基础中间件
+app.use(async (ctx, next) => {
+    let start = Date.now();
+    await next();
+    const ms = Date.now() - start;
+    console.log(`${ctx.method} ${ctx.status} ${ctx.url} - ${ms} ms`);
+});
 
 const upload = require('./utils/upload.files');
 const staticServer = require('koa-static');
@@ -32,7 +41,12 @@ app.use(koaBody({
  */
 app.use(upload);
 //TODO 引入http的监控  是否后面可以自己弄一个类似的,信息可以再完整一点
-app.use(koalog4js.koaLogger(koalog4js.getLogger('http'), { level: 'auto' }));
+app.use(koalog4js.koaLogger(koalog4js.getLogger('http'), {
+    level: 'auto'
+}));
+
+//对token进行校验
+app.use(auth);
 
 app.use(wxRouter.routes());
 app.use(router.routes());

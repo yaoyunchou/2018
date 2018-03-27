@@ -4,11 +4,13 @@
  */
 const mongoose = require('mongoose');
 const log4js = require('log4js');
+const content = require('../app.content');
 module.exports = class basService {
     constructor(name, schema) {
         this.name = name;
         this.DbModal = mongoose.model(name, schema);
         this.logger = log4js.getLogger(this.name);
+        this.content = content;
     }
     /**
      * 保存数据

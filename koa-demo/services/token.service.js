@@ -2,6 +2,7 @@
  * 用于处理无状态的
  */
 const Service = require('./_bas.service');
+const userSvc = require('./user.service');
 
 const tokenSchema = require('../model/schemas/token.schema');
 
@@ -39,7 +40,9 @@ class Token extends Service {
      */
     async checkToken(id){
         try {
-            let tokenInfo = this.acces_token.findById(id);
+            let tokenInfo = this.DbModal.findById(id);
+            let user = userSvc.getItem({_id:tokenInfo.userId});
+            this.content.setUser(user);
             if(tokenInfo.expires_in<Date.now()){
                 return {
                     isSuccess:false,
@@ -77,5 +80,5 @@ class Token extends Service {
     }
 }
 
-const user = new Token('Token', tokenSchema);
-module.exports = user;
+const tokensvc = new Token('Token', tokenSchema);
+module.exports = tokensvc;
