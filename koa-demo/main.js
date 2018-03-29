@@ -53,5 +53,5 @@ app.use(router.routes());
 
 app.use(router.allowedMethods());
 app.use(wxRouter.allowedMethods());
-http.createServer(app.callback()).listen(8090);
+http.createServer(app.callback()).listen(8080);
 //https.createServer(app.callback()).listen(443);
