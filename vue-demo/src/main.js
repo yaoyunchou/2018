@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import mainMixin  from './mixins/main.mixin'
 import store  from './store/index.js'
 import './style/common.scss'
+import './directive'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 

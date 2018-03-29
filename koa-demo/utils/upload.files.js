@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const qiniu = require('qiniu');
+const uuid = require('node-uuid');  
 const {
     QINIU_AccessKey,
     QINIU_SecretKey
@@ -42,26 +43,29 @@ module.exports = async function (ctx, next) {
         //         console.log(respBody);
         //     }
         // });
-        formUploader.putStream(uptoken, key, readableStream, putExtra, function (respErr,
-            respBody, respInfo) {
-            if (respErr) {
-                throw respErr;
-            }
-            if (respInfo.statusCode == 200) {
-                console.log(respBody);
-            } else {
-                console.log(respInfo.statusCode);
-                console.log(respBody);
-            }
+        return new Promise((resolve,reject)=>{
+            formUploader.putStream(uptoken, key, readableStream, putExtra, function (respErr,
+                respBody, respInfo) {
+                if (respErr) {
+                    throw respErr;
+                }
+                if (respInfo.statusCode == 200) {
+                    resolve(respBody);
+                } else {
+                    console.log(respInfo.statusCode);
+                    reject(respBody);
+                }
+            });
         });
+       
 
     }
-    if (ctx.request.path === '/upload/file') {
+    if (ctx.request.path === '/api/upload/file') {
 
         //要上传的空间
         let bucket = 'xfysj';
         //上传到七牛后保存的文件名
-        let name = 'test';
+        let name = ctx.query.lib||'test/';
         //生成上传 Token
         let token = uptoken(bucket, name);
         //要上传文件的本地路径
@@ -78,12 +82,16 @@ module.exports = async function (ctx, next) {
             const filePath = path.join(tmpdir, file.name);
             const reader = await fs.createReadStream(file.path);
             const writer = await fs.createWriteStream(filePath);
-            await uploadFile(token, name+Date.now(), reader);
+            let fileName =  name+'/'+uuid.v1()+'.'+file.name.split('.').pop();
+            await uploadFile(token, fileName, reader).then(function(data){
+                ctx.response.body = data;
+            });
+
             reader.pipe(writer);
             filePaths.push(filePath);
         }
        
-        ctx.response.body = 'hello world!';
+        
 
     }
     await next();

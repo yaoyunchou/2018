@@ -4,13 +4,8 @@
  * 2.在这里我们主要是实现路由可以根据每个模块自己配置
  * 
  */
-const Router = require('koa-router');
-var router = new Router({
-    prefix: '/api'
-});
 
-const user = require('./user.controller');
-
-router.use('/user',user.routes());
+const  router = require('./user.controller');
+require('./design.controller');
 
 module.exports =  router;

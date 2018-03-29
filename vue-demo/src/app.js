@@ -5,7 +5,7 @@ export default {
         return {
           activeIndex: '1',
           activeIndex2: '1',
-          isCollapse: true
+          isCollapse: false
         };
       },
       methods: {

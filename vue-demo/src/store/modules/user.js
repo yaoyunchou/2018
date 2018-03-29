@@ -15,7 +15,7 @@ const getters = {
 // actions
 const actions = {
   async rigister({ commit, state }, data) {
-    let body = await http.post('/api/user/user',{data:data});
+    let body = await http.post('/api/user',{data:data});
     if(body.isSuccess){
         return body.data;
     }else{

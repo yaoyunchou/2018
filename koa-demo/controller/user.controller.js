@@ -3,12 +3,12 @@ const tokenServer = require('../services/token.service');
 const userService = require('../services/user.service');
 
 class UserController extends BasController {
-    constructor(name, service) {
-        super(name, service);
-        this.addRouter('get', '/list', this.handlerwarp(this.getUsers));
-        this.addRouter('get', '/user/:id', this.handlerwarp(this.getItem));
+    constructor(name) {
+        super(name,userService);
+        this.addRouter('get', '/user/list', this.handlerwarp(this.getUsers));
+        this.addRouter('get', '/user', this.handlerwarp(this.getItem));
         this.addRouter('post', '/user', this.handlerwarp(this.createItem));
-        this.addRouter('post', '/login', this.login.bind(this));
+        this.addRouter('post', '/user/login', this.login.bind(this));
 
     }
 
@@ -36,7 +36,7 @@ class UserController extends BasController {
     async login(ctx, next) {
         let userInfo = await this.service.getItem({phone: 18124100815});
         if (userInfo.isSuccess) {
-            if (userInfo.data.psw === '123456') {
+            if (userInfo.data.psw === userInfo.data.psw) {
                 let tokenInfo = await tokenServer.getToken({
                     userId: userInfo.data._id
                 });
@@ -101,4 +101,4 @@ class UserController extends BasController {
     }
 }
 
-module.exports = new UserController('user', userService).router;
+module.exports = new UserController('user').router;

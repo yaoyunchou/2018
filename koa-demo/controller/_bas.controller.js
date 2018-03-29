@@ -2,7 +2,9 @@
  * controller
  */
 const Router = require('koa-router');
-const router = new Router();
+const router = new Router({
+    prefix: '/api'
+});
 const log4js = require('log4js');
 
 /**
@@ -21,7 +23,7 @@ class BasController {
     addRouter(method, url, handler) {
         try {
             this.router[method](url, handler);
-            this.logger.info(method, this.name, 'api/' + this.name + url);
+            this.logger.info(method, this.name, 'api' + url);
         } catch (error) {
             this.logger.error(this.name, error.message);
         }
@@ -33,13 +35,13 @@ class BasController {
      * @param {String} msg 
      * @param {Boolean} isAsync 
      */
-    handlerwarp(handler, msg, isAsync = true) {
+    handlerwarp(handler, select, msg, isAsync = true) {
         handler.bind(this);
         let backData;
         try {
             if (isAsync) {
                 return async (ctx,next) => {
-                    let backData = await handler.call(this, ctx);
+                    let backData = await handler.call(this, ctx,select);
                    
                     if (backData.isSuccess) {
                         backData.msg = msg || '获取数据成功!';
@@ -97,17 +99,29 @@ class BasController {
     /**
      * 默认的常用方法crud
      */
-    getItem(options) {
-        return this.service.getItem({_id:options.params.id}, {
-            nikeName: 1,
-            phone: 1
-        });
+    getItem(options,select = {}) {
+        return this.service.getItem({_id:options.query.id},select);
     }
+    updateItem(options) {
+        const data = options.request.body;
+        data._id = data.id||'';
+        return this.service.updateItem(data);
+    }
+    // getItem(options) {
+    //     return this.service.getItem({_id:options.query.id}, {
+    //         title: 1,
+    //         desc: 1,
+    //         author: 1,
+    //         smImg: 1,
+    //         fullimg: 1,
+    //         smImg: 1,
+    //     });
+    // }
     /**
      * 获取列表
      */
-    getList(options) {
-        return this.service.getList(options);
+    getList(options,select = {}) {
+        return this.service.getList(options,select);
     }
 
 }

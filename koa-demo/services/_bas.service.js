@@ -94,8 +94,19 @@ module.exports = class basService {
 
         }
     }
-    async updateItem(id) {
+    async updateItem(data) {
+        try {
+            let item = {};
+            item = await this.DbModal.findByIdAndUpdate(data._id, data);
+            item = item.length&&item[0];
+            return {
+                isSuccess: true,
+                data: item
+            };
+        } catch (error) {
+            return this.thorwError(error);
 
+        }
     }
     async deleteItem(id) {
 

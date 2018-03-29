@@ -1,7 +1,7 @@
 module.exports = {
     DB_HOST:'localhost',
     DB_PORT:'27017',
-    DB_DATABASE:'yao',
+    DB_DATABASE:'hc',
     DB_USER:'',
     DB_PASS:'',
 
