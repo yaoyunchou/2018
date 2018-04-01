@@ -9,7 +9,8 @@ const {
     log4js
 } = require('../logger');
 const logger = log4js.getLogger('mongodb');
-const DB_URL = 'mongodb://'+DB_HOST+'/'+DB_DATABASE;
+const DB_URL = 'mongodb://yao:625514@'+DB_HOST+'/'+DB_DATABASE;
+
 try {
     mongoose.connect(DB_URL);
 } catch (error) {
