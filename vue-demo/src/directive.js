@@ -8,5 +8,9 @@ Vue.directive('src', {
     inserted: function (el,binding) {
       // 聚焦元素
       el.src = basImagePath+binding.value;
+    },
+    update: function (el,binding) {
+      // 聚焦元素
+      el.src = basImagePath+binding.value;
     }
   })

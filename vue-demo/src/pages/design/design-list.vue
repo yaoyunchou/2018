@@ -94,9 +94,9 @@ export default {
     },
     goDetail(data) {
       this.$router.push({
-        name: "designlist",
+        name: "design",
         params: {
-          id: data.id
+          id: data._id
         }
       });
     },

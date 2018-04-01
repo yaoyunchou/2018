@@ -23,7 +23,8 @@ export default class BasList extends BasStore {
 
   async getList({state,rootState,commit},data) {
     data = data ||{};
-    let options = {
+    
+    let options = {...data.query,
         pageNumber:data.pageNumber||this.pageNumber,
         pageSize:data.pageSize||this.pageSize,
     };
