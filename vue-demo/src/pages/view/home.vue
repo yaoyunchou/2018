@@ -7,13 +7,13 @@
         </h1>
         <nav>
           <a href="#">个人首页</a>
-          <a href="#">个人简介</a>
-          <a href="#">作品展示</a>
-          <a href="#">联系方式</a>
+          <a href="javascript:void(0)" v-on:click="goAnchor('userInfo')">个人简介</a>
+          <a href="javascript:void(0)" v-on:click="goAnchor('list')">作品展示</a>
+          <a href="javascript:void(0)" v-on:click="goAnchor('footer')">联系方式</a>
         </nav>
       </header>
     </div>
-    <div class="user-info">
+    <div class="user-info" id ='userInfo'>
       <h2 class="head">个人简介</h2>
       <div class="user-info-in">
         <div class="avarta">
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="list">
+    <div class="list" id="list">
         <h2 class="head">作品展示</h2>
         <div class="tabs">
           <span  v-bind:class="{ on: type==='' }" v-on:click="search('')">全部</span>
@@ -71,16 +71,24 @@
     </div>
     <div id="footer">
         <div class="footer">
+          <h4>联系方式 / contact me</h4>
             <div class="foot_in">
-              <img src="../../assets/images/code.png" alt="">
-            </div>
-            <p>
+              
+              <div class="code">
+                <img src="../../assets/images/code.png" alt="">
+              </div>
+              <div class="icon">
+                <img src="../../assets/images/icon2.png" alt="">
+              </div>
+              <p>
                 邮箱：990509726@qq。com<br/>
 
                 电话：15626232247<br/>
                 
                 Q Q：990509726
             </p>
+            </div>
+           
         </div>
     </div>
     
@@ -89,7 +97,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
-
+import jquery from 'jquery';
 export default {
   name: "Home",
   data() {
@@ -186,6 +194,9 @@ export default {
         } else {
         }
       });
+    },
+    goAnchor(name){
+      jquery('html, body').animate({scrollTop: jquery('#'+name).offset().top}, 1000)
     }
   },
   mounted: function() {
@@ -218,6 +229,7 @@ export default {
     position: fixed;
     top: 0;
     background: url(/static/images/index_bg.png) no-repeat center top;
+    z-index: 1000;
     header {
       width: 1200px;
       margin: 0 auto;
@@ -359,25 +371,36 @@ export default {
   }
   #footer {
     height: 610px;
-    background: #454545;
+    background: #2b2b2b;
     .footer {
-      width: 1200px;
+      width: 740px;
       margin: 0 auto;
       overflow: hidden;
+      padding:87px 230px;
+       h4{ font-size:24px; text-align: center; line-height: 36px; margin-bottom: 68px; color:#fff; font-weight: normal;}
       .foot_in {
-        margin: 100px 0 0 250px;
-        overflow: hidden;
+        position: relative;
+        height:219px;
+        padding-top:75px;
+        padding-left:150px;
+        border:4px solid #fff;
+       
+        .code{
+          position: absolute; top:47px; left:-90px;
+        }
+        .icon{
+          position: absolute; top:84px; right:-40px;
+        }
+         p {
         float: left;
-      }
-      p {
-        float: left;
-        margin-top: 260px;
-        margin-left: 50px;
         color: #fff;
-        fonts-size: 18px;
+        font-size: 18px;
         line-height: 48px;
-        font-weight: bold;
+        padding-left: 50px;
+        background: url('../../assets/images/icon3.png') no-repeat left 20px;
       }
+      }
+     
     }
   }
 }
