@@ -45,17 +45,16 @@ module.exports = class basService {
      * TODO 这里先放着后面完善
      * @param {object} searchOptions 
      */
-    async getList(searchOptions) {
+    async getList(searchOptions,select={}) {
         // let defaultOptions = {
         try {
             searchOptions = Object.assign({
-                select: {},
                 query: {},
                 pageSize: 10,
                 pageNum: 1,
             }, searchOptions);
             let count = await this.DbModal.find(searchOptions.query).count();
-            let listData = await this.DbModal.find(searchOptions.query).skip((searchOptions.pageNum - 1) * searchOptions.pageSize).limit(searchOptions.pageSize);
+            let listData = await this.DbModal.find(searchOptions.query,select).skip((searchOptions.pageNum - 1) * searchOptions.pageSize).limit(searchOptions.pageSize);
             return {
                 isSuccess: true,
                 data: {

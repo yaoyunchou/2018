@@ -49,10 +49,11 @@
           <span  v-bind:class="{ on: type==='' }" v-on:click="search('')">全部</span>
           <span v-bind:class="{ on: type==='pc' }"  v-on:click="search('pc')">pc端</span>
           <span v-bind:class="{ on: type==='mc' }"  v-on:click="search('mc')">手机端</span>
+          <span v-bind:class="{ on: type==='other' }"  v-on:click="search('other')">其他</span>
         </div>
         <ul class="list_in">
           <li v-for="value in tableData">
-              <div class="img-box">
+              <div class="img-box" v-on:click = "goDetail(value)">
                 <img v-src="value.smImg" alt="">
               </div>
               <div class="text">
@@ -338,7 +339,8 @@ export default {
         margin-bottom: 30px;
         margin-right: 20px;
         .img-box {
-          heigth: 280px;
+          height: 280px;
+          overflow: hidden;
           img {
             width: 100%;
           }

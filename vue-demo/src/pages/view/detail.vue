@@ -70,7 +70,7 @@ export default {
     span{ display:inline-block; padding:0 20px; height: 40px; line-height:40px; border-radius:5px; background:#fff; margin-left:15px; margin-top:5px;}
   }
   .perview-box{
-    img{ min-width: 1200px; width:100%;}
+    img{ max-width: 1200px; width:100%;}
   }
 
 </style>
