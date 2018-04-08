@@ -279,7 +279,7 @@ export default {
         padding: 25px 25px 25px 60px;
         left: 527px;
         top: 43px;
-        background: #f5f5f5  url('../../assets/images/bg04.png') no-repeat left top;
+        // background: #f5f5f5  url('../../assets/images/bg04.png') no-repeat left top;
         z-index: 1;
         border-radius: 5px;
         &::after{
@@ -291,7 +291,7 @@ export default {
            left:0px;
            width:560x;
           height:90px;
-          background: url('../../assets/images/bg03.png') no-repeat bottom;
+          // background: url('../../assets/images/bg03.png') no-repeat bottom;
           z-index: 0;
         }
         h3 {
