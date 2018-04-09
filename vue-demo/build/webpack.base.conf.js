@@ -13,7 +13,9 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    jquery:'jquery',
+    elementui:'element-ui',
+    app: ['jquery','./src/main.js'],
   },
   output: {
     path: config.build.assetsRoot,

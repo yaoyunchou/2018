@@ -45,6 +45,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name:"chunk",
+      // filename:"chunk.js"//忽略则以name为输出文件的名字，否则以此为输出文件名字
+      minChunks:1
+    }),
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
     }),
