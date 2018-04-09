@@ -20,23 +20,11 @@ class DesignList extends BasList {
       loadUri: 'api/design/list',
     });
   }
- 
-  beforeListLoad(data){
-    data.page = data.pageNumber||1;
-    data.size = data.pageSize||10;
-    if(data.pageNumber){
-      delete data.pageNumber;
-    }
-    if(data.pageSize){
-      delete data.pageSize;
-    }
-    return data;
-  }
   backData(data){
     data = {
       dataList:data.list,
       pageSize:data.pageSize,
-      pageNumber:data.pageNum,
+      pageNumb:data.pageNum,
       total:data.total
     }
     return{

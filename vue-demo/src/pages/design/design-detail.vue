@@ -10,6 +10,7 @@
       <el-select v-model="form.type" placeholder="请选择作品类型">
         <el-option label="pc作品" value='pc'></el-option>
         <el-option label="手机作品" value='mc'></el-option>
+        <el-option label="其他" value='other'></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="描述">
