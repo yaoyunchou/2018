@@ -9,10 +9,11 @@ require('./logger');
 const app = new Koa();
 //引入api
 const router = require('./controller');
+
 //监控微信的返回,这里微信是直接返回根目录的'/'的所以单独引入
 const wxRouter = require('./controller/wx.controller');
 
-//const auth = require('./app.auth');
+const auth = require('./app.auth');
 
 //引入数据库
 require('./model');
@@ -46,12 +47,13 @@ app.use(koalog4js.koaLogger(koalog4js.getLogger('http'), {
 }));
 
 //对token进行校验
-//app.use(auth);
+app.use(auth);
 
 app.use(wxRouter.routes());
 app.use(router.routes());
 
 app.use(router.allowedMethods());
 app.use(wxRouter.allowedMethods());
+
 http.createServer(app.callback()).listen(8070);
 

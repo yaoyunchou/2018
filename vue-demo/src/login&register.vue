@@ -118,6 +118,7 @@ export default {
   },
   methods: {
     ...mapActions("user", ["rigister","login"]),
+    ...mapMutations(["setToken"]),
    //...mapActions(["login"]),
     submitForm(formName) {
       let self = this;
@@ -126,7 +127,7 @@ export default {
         if (valid) {
           if (formName === "ruleForm1") {
             self.login({
-              nikeName: self.ruleForm1.name,
+              phone: self.ruleForm1.phone,
               psw: self.ruleForm1.pass
             }).then(function(data){
               if(data.isSuccess){

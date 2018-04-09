@@ -26,10 +26,12 @@ const actions = {
     }
     
   },
-  async login({ commit, state }, data) {
+  async login({ commit, rootState, state }, data) {
     let body = await http.post('/api/user/login',{data:data});
     if(body.isSuccess){
       axios.defaults.headers.common['token'] = body.data.token;
+      rootState.token = body.data.token;
+      sessionStorage.setItem('token',body.data.token);
         return body;
     }else{
         return body;

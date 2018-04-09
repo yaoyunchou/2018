@@ -49,10 +49,10 @@ class Token extends Service {
                     msg:'登陆超时,请重新登陆!'
                 };
             }else{
-                tokenInfo = this.DbModal.findByIdAndUpdate(id,{expires_in:Date.now()+7200});
+                tokenInfo = await this.DbModal.findByIdAndUpdate(id,{expires_in:Date.now()+7200});
                 return {
                     isSuccess:true,
-                    acces_token:tokenInfo._id,
+                    token:tokenInfo,
                     msg:'更新Token成功!'
                 };
             }
