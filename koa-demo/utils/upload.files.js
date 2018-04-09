@@ -87,8 +87,8 @@ module.exports = async function (ctx, next) {
                 ctx.response.body = data;
             });
 
-            reader.pipe(writer);
-            filePaths.push(filePath);
+           // reader.pipe(writer);
+            //filePaths.push(filePath);
         }
        
         
