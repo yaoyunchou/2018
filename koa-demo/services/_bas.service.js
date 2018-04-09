@@ -19,26 +19,14 @@ module.exports = class basService {
     async save(data) {
         try {
             let entiry = new this.DbModal(data);
-            let user = await entiry.save();
+            let backData = await entiry.save();
             return {
                 isSuccess: true,
-                data: user
+                data: backData
             };
         } catch (error) {
             return this.thorwError(error);
         }
-        // return new Promise((resolve, reject) => {
-
-        //     new this.DbModal(data).save(function (err, user) {
-        //         if (err) {
-        //             reject(err);
-        //             //throw new Error(err);
-        //         } else {
-        //             resolve(user);
-        //         }
-        //     });
-        // });
-
     }
     /**
      * 获取数据

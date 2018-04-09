@@ -34,9 +34,10 @@ class UserController extends BasController {
      * @param {obj} options 
      */
     async login(ctx, next) {
-        let userInfo = await this.service.getItem({phone: 18124100815});
+        let userInfo = await this.service.getItem({phone: ctx.request.body.phone});
+
         if (userInfo.isSuccess) {
-            if (userInfo.data.psw === userInfo.data.psw) {
+            if (userInfo.data.psw === ctx.request.body.psw) {
                 let tokenInfo = await tokenServer.getToken({
                     userId: userInfo.data._id
                 });
