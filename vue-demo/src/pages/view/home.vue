@@ -17,7 +17,7 @@
       <h2 class="head">个人简介</h2>
       <div class="user-info-in">
         <div class="avarta">
-          <img src="/static/images/avarta.png" alt="">
+          <img src="http://p024s277s.bkt.clouddn.com/home/avarta.png" alt="">
         </div>
         <div class="text-box">
           <h3>个人简介</h3>
@@ -111,7 +111,7 @@ export default {
     };
   },
   metaInfo: {
-    title: "首页"
+    title: "小飞鱼设计"
   },
   methods: {
     ...mapActions("design", ["getList"]),
@@ -229,7 +229,7 @@ export default {
     height: 70px;
     position: fixed;
     top: 0;
-    background: url(/static/images/index_bg.png) no-repeat center top;
+    background: url(http://p024s277s.bkt.clouddn.com/home/index_bg.png) no-repeat center top;
     z-index: 1000;
     header {
       width: 1200px;
@@ -319,7 +319,7 @@ export default {
         padding: 0 50px;
         line-height: 50px;
         text-align: center;
-        border-radius: 5px;
+        
         background: #fff;
         cursor: pointer;
         margin-right: 10px;
@@ -343,6 +343,7 @@ export default {
           overflow: hidden;
           img {
             width: 100%;
+            cursor: pointer;
           }
         }
         .text {
