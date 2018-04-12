@@ -13,10 +13,11 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
+    jquery:['jquery'],
+    vue:'vue',
+    //elementui:'element-ui',
+    app: './src/main.js',
   
-    app: ['jquery','element-ui','./src/main.js'],
-    jquery:'jquery',
-    elementui:'element-ui',
  
   },
   output: {
