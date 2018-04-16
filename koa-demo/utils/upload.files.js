@@ -8,6 +8,8 @@ const {
 } = require('../config');
 qiniu.conf.ACCESS_KEY = QINIU_AccessKey;
 qiniu.conf.SECRET_KEY = QINIU_SecretKey;
+
+
 module.exports = async function (ctx, next) {
     this.req = ctx.req, this.res = ctx.res;
     //构建上传策略函数
@@ -73,9 +75,10 @@ module.exports = async function (ctx, next) {
             let fileName = name + '/' + uuid.v1() + '.' + file.name.split('.').pop();
             await uploadFile(token, fileName, reader).then(function (data) {
                 ctx.response.body = data;
+
             });
-            reader.pipe(writer);
-            filePaths.push(filePath);
+            //reader.pipe(writer);
+            //filePaths.push(filePath);
         }
     }
     await next();
