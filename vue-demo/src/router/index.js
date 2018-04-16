@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-<<<<<<< HEAD
 import HelloWorld from '@/components/HelloWorld'
 import LoginRegister from '@/login&register'
 import EditorMd from '@/editMd'
@@ -10,8 +9,6 @@ import DesignList from '@/pages/design/design-list'
 import Blog from '@/pages/blog/detail'
 
 
-=======
->>>>>>> dev
 
 
 

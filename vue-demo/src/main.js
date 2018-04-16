@@ -3,17 +3,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-<<<<<<< HEAD
 import Meta from 'vue-meta'
 import ElementUI from 'element-ui'
-=======
-import VueMeta from 'vue-meta'
-
-//import ElementUI from 'element-ui'
-const ElementUI =  require.ensure([], function(require) {
-    require('element-ui');
-});
->>>>>>> dev
 import 'element-ui/lib/theme-chalk/index.css'
 
 
@@ -23,11 +14,7 @@ import './style/common.scss'
 import './directive'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
-<<<<<<< HEAD
 Vue.use(Meta);
-=======
-Vue.use(VueMeta)
->>>>>>> dev
 
 
 
