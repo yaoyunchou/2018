@@ -13,7 +13,12 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    jquery:['jquery'],
+    vue:'vue',
+    //elementui:'element-ui',
+    app: './src/main.js',
+  
+ 
   },
   output: {
     path: config.build.assetsRoot,
@@ -23,7 +28,7 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json','.scss'],
+    extensions: ['.js', '.vue', '.json', '.scss'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),

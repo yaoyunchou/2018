@@ -75,10 +75,8 @@ module.exports = async function (ctx, next) {
             let fileName = name + '/' + uuid.v1() + '.' + file.name.split('.').pop();
             await uploadFile(token, fileName, reader).then(function (data) {
                 ctx.response.body = data;
-
             });
-            //reader.pipe(writer);
-            //filePaths.push(filePath);
+         
         }
     }
     await next();

@@ -28,7 +28,7 @@ export default {
   },
   conpuntd: {},
   metaInfo: {
-    title: "消息列表"
+    title: "小飞鱼设计"
   },
   methods: {
     ...mapActions("design", ["getItem"]),
@@ -66,11 +66,11 @@ export default {
 </script>
 <style lang="scss" scoped>
   .handle{
-    height: 50px; position: fixed; top:0; background: rgba(0,0,0,0.4); width:100%;
+    height: 50px; position: fixed; top:0;  width:100%;
     span{ display:inline-block; padding:0 20px; height: 40px; line-height:40px; border-radius:5px; background:#fff; margin-left:15px; margin-top:5px;}
   }
   .perview-box{
-    img{ min-width: 1200px; width:100%;}
+    img{ max-width: 1200px; width:100%;display: block; margin:0 auto;}
   }
 
 </style>

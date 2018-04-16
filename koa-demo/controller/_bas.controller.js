@@ -40,24 +40,24 @@ class BasController {
         let backData;
         try {
             if (isAsync) {
-                return async (ctx,next) => {
-                    let backData = await handler.call(this, ctx,select);
-                   
+                return async (ctx, next) => {
+                    let backData = await handler.call(this, ctx, select);
+
                     if (backData.isSuccess) {
                         backData.msg = msg || '获取数据成功!';
                         this.reply(ctx, backData);
-                    } else if(backData.err.code ===11000) {
-                        
+                    } else if (backData.err.code === 11000) {
+
                         this.reply(ctx, {
                             isSuccess: false,
                             msg: '信息已被使用'
-                        },500);
-                    }else{
-                        
+                        }, 500);
+                    } else {
+
                         this.reply(ctx, {
                             isSuccess: false,
-                            msg: backData.msg||'接口出错了!'
-                        },500);
+                            msg: backData.msg || '接口出错了!'
+                        }, 500);
                     }
                     await next();
                 };
@@ -85,7 +85,7 @@ class BasController {
             msg: '',
             isSuccess: true
         };
-       
+
         ctx.response.type = type;
         ctx.response.body = body;
     }
@@ -99,12 +99,14 @@ class BasController {
     /**
      * 默认的常用方法crud
      */
-    getItem(options,select = {}) {
-        return this.service.getItem({_id:options.query.id},select);
+    getItem(options, select = {}) {
+        return this.service.getItem({
+            _id: options.query.id
+        }, select);
     }
     updateItem(options) {
         const data = options.request.body;
-        data._id = data.id||'';
+        data._id = data.id || '';
         return this.service.updateItem(data);
     }
     // getItem(options) {
@@ -120,8 +122,20 @@ class BasController {
     /**
      * 获取列表
      */
-    getList(options,select = {}) {
-        return this.service.getList(options,select);
+    getList(ctx, select) {
+        let searchOptions = {};
+        searchOptions.query = {};
+        for (let item in ctx.query){
+            if (item == 'pageSize'||item == 'pageNum') {
+                searchOptions[item] = parseInt(ctx.query[item]);
+              
+            }else{
+                searchOptions.query[item] = {$regex:ctx.query[item]};
+            }
+        
+        }
+      
+        return this.service.getList(searchOptions, select);
     }
 
 }

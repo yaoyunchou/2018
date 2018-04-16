@@ -46,7 +46,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      'process.env': require('../config/dev.env'),
+      'PUBLIC_PATH': JSON.stringify('/'),
+      'process.env.APPID':'"wx6628d33ac319e694"',
+      'process.env.OPENID':'"odqwHuOA1D987WJxrrBd2M0PqmbU"',
+      'process.env.VOTEID':'"5a97cd11c5197a8b4a82a587"',
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
@@ -55,6 +59,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
+      PUBLIC_PATH:'/',
       inject: true
     }),
     // copy custom static assets

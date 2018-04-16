@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+<<<<<<< HEAD
 import HelloWorld from '@/components/HelloWorld'
 import LoginRegister from '@/login&register'
 import EditorMd from '@/editMd'
@@ -9,11 +10,24 @@ import DesignList from '@/pages/design/design-list'
 import Blog from '@/pages/blog/detail'
 
 
+=======
+>>>>>>> dev
 
-import Home from '@/pages/view/home'
-import HDetail from '@/pages/view/detail'
-import Admin from '@/app.js'
 
+
+
+
+
+const HelloWorld = () => import('@/components/HelloWorld');
+const LoginRegister = () => import('@/login&register');
+const Test = () => import('@/pages/user/test');
+const Design = () => import('@/pages/design/design-detail');
+const DesignList = () => import('@/pages/design/design-list');
+
+const Home = () => import('@/pages/view/home');
+const HDetail = () => import('@/pages/view/detail');
+const Admin = () => import('@/app.js');
+// const index = () => import('@/page/Index.vue')
 Vue.use(Router)
 
 export default new Router({

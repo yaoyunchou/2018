@@ -5,7 +5,7 @@ export default class BasList extends BasStore {
     super(options.uri)
     this.listUri = options.loadUri || options.uri;
     this.pageSize = options.pagesize||10;
-    this.pageNumber =  options.pageNumber||1;
+    this.pageNum =  options.pageNum||1;
     this.enableSearch = true;
     this.state ={
         dataList:{}
@@ -25,7 +25,7 @@ export default class BasList extends BasStore {
     data = data ||{};
     
     let options = {...data.query,
-        pageNumber:data.pageNumber||this.pageNumber,
+        pageNum:data.pageNum||this.pageNum,
         pageSize:data.pageSize||this.pageSize,
     };
     if(typeof this.beforeListLoad === 'function'){
@@ -46,8 +46,8 @@ export default class BasList extends BasStore {
   setDataList({state},data){
     this.dataList = data;
   }
-  setPageNumber(num){
-    this.pageNumber = num;
+  setPageNum(num){
+    this.pageNum = num;
   }
   setPageSize(num){
     this.pageSize = num;
