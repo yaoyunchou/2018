@@ -1,28 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import LoginRegister from '@/login&register'
-import EditorMd from '@/editMd'
-import Test from '@/pages/user/test'
-import Design from '@/pages/design/design-detail'
-import DesignList from '@/pages/design/design-list'
-import Blog from '@/pages/blog/detail'
-
-
-
-
-
-
-
 
 const HelloWorld = () => import('@/components/HelloWorld');
 const LoginRegister = () => import('@/login&register');
+const EditorMd = () => import('@/editMd');
+
 const Test = () => import('@/pages/user/test');
 const Design = () => import('@/pages/design/design-detail');
 const DesignList = () => import('@/pages/design/design-list');
-
+const Blog = () => import('@/pages/design/design-detail');
 const Home = () => import('@/pages/view/home');
 const HDetail = () => import('@/pages/view/detail');
+const Gallery = () => import('@/pages/gallery/image-list');
+
 const Admin = () => import('@/app.js');
 // const index = () => import('@/page/Index.vue')
 Vue.use(Router)
@@ -63,6 +53,13 @@ export default new Router({
           name: 'blog',
           path: 'blog/:id',
           component: Blog
+        },
+        {
+          // 当 /user/:id/profile 匹配成功，
+          // UserProfile 会被渲染在 User 的 <router-view> 中
+          name: 'images',
+          path: 'images',
+          component: Gallery
         }
       ]
     },

@@ -46,6 +46,7 @@ class UserController extends BasController {
                     this.reply(ctx, {
                         isSuccess: true,
                         data: {
+                            userId: userInfo.data._id,
                             token: tokenInfo.acces_token
                         }
 

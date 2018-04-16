@@ -1,8 +1,7 @@
 /**
- * 针对图片上传
+ * 针对图片上传,这个是有权限控制的!!
  */
 const fs = require('fs');
-const path = require('path');
 const qiniu = require('qiniu');
 const uuid = require('node-uuid');
 const {
@@ -26,6 +25,8 @@ class ImagesController extends BasController {
         // this.addRouter('put', '/design', this.handlerwarp(this.updateItem));
     }
     async createItem(ctx, next) {
+        let self = this;
+
         function uptoken(bucket) {
             let mac = new qiniu.auth.digest.Mac(QINIU_AccessKey, QINIU_SecretKey);
             var putPolicy = new qiniu.rs.PutPolicy({
@@ -51,13 +52,11 @@ class ImagesController extends BasController {
                     if (respInfo.statusCode == 200) {
                         resolve(respBody);
                     } else {
-                        console.log(respInfo.statusCode);
+                        //console.log(respInfo.statusCode);
                         reject(respBody);
                     }
                 });
             });
-
-
         }
 
         //要上传的空间名称
@@ -67,19 +66,36 @@ class ImagesController extends BasController {
         //生成上传 Token
         let token = uptoken(bucket, name);
         const files = ctx.request.body.files || {};
+        let backdatas = [],
+            isSuccess = true;
         for (let key in files) {
             const file = files[key];
             const reader = await fs.createReadStream(file.path);
             let fileName = name + '/' + uuid.v1() + '.' + file.name.split('.').pop();
-            await uploadFile(token, fileName, reader).then(function (data) {
-                ctx.response.body = data;
-
+            let backdata = await uploadFile(token, fileName, reader);
+            let svcBack = await self.service.save({
+                url: backdata.key,
+                owner: self.service.content.getUserId()
             });
+            isSuccess = isSuccess && svcBack.isSuccess;
+            backdatas.push(svcBack);
+
         }
-        await next();
+        if (isSuccess) {
+            return {
+                isSuccess: isSuccess,
+                data: backdatas,
+                msg:'上传成功!'
+            };
+        } else {
+            return {
+                isSuccess: isSuccess,
+                msg:'上传失败'
+            };
+        }
+
     }
 
 }
-
 
 module.exports = new ImagesController('images').router;

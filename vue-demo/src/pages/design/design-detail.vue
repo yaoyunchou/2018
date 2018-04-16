@@ -20,7 +20,8 @@
       <el-form-item label="图标">
      <el-upload
         class="avatar-uploader"
-        action="api/upload/file?lib=hc"
+        action="api/upload/file?lib=test"
+        :data="uploadData"
         :show-file-list="false"
         :on-success="smImgSuccess"
         :before-upload="beforeAvatarUpload">
@@ -31,7 +32,8 @@
     <el-form-item label="设计稿">
      <el-upload
         class="design-uploader"
-        action="api/upload/file?lib=hc"
+        action="api/upload/image?lib=test"
+        :headers="uploadData"
         :show-file-list="false"
         :on-success="fullImgSuccess"
         :before-upload="beforeAvatarUpload">
@@ -55,6 +57,7 @@ export default {
     return {
       type: "create",
       imageUrl:'',
+     
       fullscreenLoading: false,
       form: {
         title: "",
@@ -80,7 +83,14 @@ export default {
       }
     };
   },
-  conpuntd: {},
+ computed:{
+   ...mapState(['token']),
+    uploadData:function(){
+      return {token:this.token}
+    }
+         
+    
+ } ,
   metaInfo: {
     title: "消息列表"
   },

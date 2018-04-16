@@ -7,5 +7,6 @@
 
 const  router = require('./user.controller');
 require('./design.controller');
+require('./images.controller');
 
 module.exports =  router;

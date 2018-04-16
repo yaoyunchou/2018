@@ -5,7 +5,7 @@ const content = require('./app.content');
  * 检查token,如果超时就会拦截到登陆页面
  * 如果没有超时就会更新页面
  */
-const filer = ['/api/user/login'];
+const filer = ['/api/user/login','/api/upload/file'];
 
 
 module.exports = async (ctx, next) => {

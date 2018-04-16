@@ -31,7 +31,9 @@ const actions = {
     if(body.isSuccess){
       axios.defaults.headers.common['token'] = body.data.token;
       rootState.token = body.data.token;
+      rootState.userId = body.data.userId;
       sessionStorage.setItem('token',body.data.token);
+      sessionStorage.setItem('userId',body.data.userId);
         return body;
     }else{
         return body;

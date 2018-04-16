@@ -8,7 +8,8 @@ const {
 } = require('../config');
 qiniu.conf.ACCESS_KEY = QINIU_AccessKey;
 qiniu.conf.SECRET_KEY = QINIU_SecretKey;
-
+//这个是针对没有登录的用户,这里开发权限但是还是要数据入库 所以有这个东西
+const imagesService = require('../services/images.service');
 
 module.exports = async function (ctx, next) {
     this.req = ctx.req, this.res = ctx.res;
@@ -71,10 +72,11 @@ module.exports = async function (ctx, next) {
             const file = files[key];
             const filePath = path.join(tmpdir, file.name);
             const reader = await fs.createReadStream(file.path);
-            const writer = await fs.createWriteStream(filePath);
+            // const writer = await fs.createWriteStream(filePath);
             let fileName = name + '/' + uuid.v1() + '.' + file.name.split('.').pop();
             await uploadFile(token, fileName, reader).then(function (data) {
                 ctx.response.body = data;
+                imagesService.save(data);
             });
          
         }
