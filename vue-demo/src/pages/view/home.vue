@@ -111,7 +111,7 @@ export default {
     };
   },
   metaInfo: {
-    title: "小飞鱼设计"
+    title: "hcc设计"
   },
   methods: {
     ...mapActions("design", ["getList"]),
