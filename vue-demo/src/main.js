@@ -5,10 +5,8 @@ import App from './App.vue'
 import router from './router'
 import VueMeta from 'vue-meta'
 
-//import ElementUI from 'element-ui'
-const ElementUI =  require.ensure([], function(require) {
-    require('element-ui');
-});
+import ElementUI from 'element-ui'
+
 import 'element-ui/lib/theme-chalk/index.css'
 import mainMixin  from './mixins/main.mixin'
 import store  from './store/index.js'
