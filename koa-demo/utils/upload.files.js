@@ -12,7 +12,7 @@ qiniu.conf.SECRET_KEY = QINIU_SecretKey;
 const imagesService = require('../services/images.service');
 
 module.exports = async function (ctx, next) {
-    this.req = ctx.req, this.res = ctx.res;
+    //this.req = ctx.req, this.res = ctx.res;
     //构建上传策略函数
     function uptoken(bucket, key) {
         let mac = new qiniu.auth.digest.Mac(QINIU_AccessKey, QINIU_SecretKey);
