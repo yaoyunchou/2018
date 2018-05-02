@@ -1,10 +1,10 @@
 <template>
-  <div class="image-list">
+  <div class="msg-list">
     <div class="head">
       <el-button size="medium" v-on:click="addMsg()">添加</el-button>
     </div>
 
-    <!-- <el-table :data="images" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%">
       <el-table-column type="index" label=" " width="50"></el-table-column>
       <el-table-column prop="title" label="标题" width="600"></el-table-column>
       <el-table-column  label="消息类型" width="500">
@@ -20,18 +20,13 @@
           <el-button type="text" size="small">查看</el-button>
         </template>
       </el-table-column>
-    </el-table> -->
-    <ul class="image-box-list">
-      <li v-for="image in images">
-        <div class="image-box">
-          <img v-src= "image.url" alt=""> 
-        </div>
-         <div class="tool-bars">
-
-         </div>
+    </el-table>
+    <ul>
+      <li v-for = "image in images"> 
+          <img v-src= "image.url" alt="">
+          <p v-text="image.title"></p>
       </li>
     </ul>
-    <div class="clear-fix"></div>
     <el-pagination @current-change="goPage" :current-page.sync="pageNumber" :page-size="pageSize" layout="prev, pager, next, jumper"
       :total="total">
     </el-pagination>
@@ -46,7 +41,7 @@ export default {
   name: "Msglist",
   data() {
     return {
-      images: [],
+      tableData: [],
       pageSize: 10,
       pageNumber: 1,
       total: 0
@@ -121,7 +116,7 @@ export default {
           (this.pageNumber = data.data.pageNumber),
             (this.total = data.data.total);
           this.pageSize = data.data.page;
-          this.images = data.data.dataList;
+          this.tableData = data.data.dataList;
         } else {
         }
       });
@@ -142,31 +137,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.image-list {
+.msg-list {
   .head {
     height: 100px;
   }
-  .image-box-list{
-    
-    overflow: hidden;
-    li{ float:left;}
-    .image-box{
-        width:200px;
-        height: 160px;
-        display: flex;
-        float: left;
-        justify-content:center;
-        align-items: center;
-        /* 注意这里需要设置高度来查看垂直居中效果 */
-        background: pink;
-        margin:10px;
-        img{
-          max-width: 200px;
-          max-height: 160px;
-          display: inline;
-        }
-    }
-  }
-  
 }
 </style>

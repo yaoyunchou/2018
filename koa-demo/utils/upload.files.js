@@ -56,7 +56,7 @@ module.exports = async function (ctx, next) {
         //要上传的空间
         let bucket = 'xfysj';
         //上传到七牛后保存的文件名
-        let name = ctx.query.lib || 'test/';
+        let name = ctx.query.lib || 'test';
         //生成上传 Token
         let token = uptoken(bucket, name);
         //要上传文件的本地路径
@@ -74,8 +74,12 @@ module.exports = async function (ctx, next) {
             const reader = await fs.createReadStream(file.path);
             // const writer = await fs.createWriteStream(filePath);
             let fileName = name + '/' + uuid.v1() + '.' + file.name.split('.').pop();
+            //let fileName = name + '/' +file.name;
             await uploadFile(token, fileName, reader).then(function (data) {
-                ctx.response.body = data;
+                ctx.response.body = {
+                    uploaded :true,
+                    url:'http://p024s277s.bkt.clouddn.com/'+data.key
+                };
                 //imagesService.save(data);
             });
          

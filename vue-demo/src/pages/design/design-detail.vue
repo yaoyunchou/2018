@@ -14,7 +14,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="描述">
-      <el-input type="textarea" v-model="form.desc"></el-input>
+      <ckEditor></ckEditor>
     </el-form-item>
     
       <el-form-item label="图标">
@@ -50,21 +50,22 @@
 </template>
 
 <script>
+import ckEditor from "@/components/ckEditor";
 import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 export default {
   name: "MsgDetail",
   data() {
     return {
       type: "create",
-      imageUrl:'',
-     
+      imageUrl: "",
+
       fullscreenLoading: false,
       form: {
         title: "",
         desc: "",
         smImg: "",
         fullImg: "",
-        type:'pc'
+        type: "pc"
       },
       rules: {
         title: [
@@ -83,14 +84,15 @@ export default {
       }
     };
   },
- computed:{
-   ...mapState(['token']),
-    uploadData:function(){
-      return {token:this.token}
+  components: {
+    ckEditor
+  },
+  computed: {
+    ...mapState(["token"]),
+    uploadData: function() {
+      return { token: this.token };
     }
-         
-    
- } ,
+  },
   metaInfo: {
     title: "消息列表"
   },
@@ -107,7 +109,7 @@ export default {
             self.createItem(data).then(function(back) {
               if (back.isSuccess) {
                 self.$message("添加成功!");
-                 self.$router.push({name:'designlist'});
+                self.$router.push({ name: "designlist" });
               } else {
                 self.$message("添加失败!");
               }
@@ -116,7 +118,7 @@ export default {
             self.updateItem(data).then(function(back) {
               if (back.isSuccess) {
                 self.$message("修改成功!");
-                self.$router.push({name:'designlist'});
+                self.$router.push({ name: "designlist" });
               } else {
                 self.$message("修改失败!");
               }
@@ -129,13 +131,13 @@ export default {
       });
     },
     goList() {
-      this.$router.push({name:'designlist'});
+      this.$router.push({ name: "designlist" });
     },
     smImgSuccess(res) {
       this.form.smImg = res.key;
       //this.imageUrl = URL.createObjectURL(file.raw);
     },
-     fullImgSuccess(res) {
+    fullImgSuccess(res) {
       this.form.fullImg = res.key;
       //this.imageUrl = URL.createObjectURL(file.raw);
     },
@@ -164,7 +166,7 @@ export default {
       });
       self
         .getItem({
-          id: this.$route.params.id,
+          id: this.$route.params.id
         })
         .then(function(data) {
           loading.close();
@@ -185,20 +187,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .design {
-    max-width: 500px;
-    .el-select,
-    .el-textarea,
-    .el-input {
-      width: 360px;
-      float: left;
-    }
-    .el-checkbox {
-      float: left;
-      margin-right: 15px;
-      text-align: left;
-
-
-    }
+  max-width: 500px;
+  .el-select,
+  .el-textarea,
+  .el-input {
+    width: 360px;
+    float: left;
   }
-
+  .el-checkbox {
+    float: left;
+    margin-right: 15px;
+    text-align: left;
+  }
+}
 </style>

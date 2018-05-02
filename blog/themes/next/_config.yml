@@ -106,6 +106,10 @@ menu_icons:
   enable: true
 
 
+
+# 自动生成sitemap
+sitemap: /sitemap.xml
+baidusitemap: /baidusitemap.xml
 # ---------------------------------------------------------------
 # Scheme Settings
 # ---------------------------------------------------------------
@@ -573,7 +577,7 @@ busuanzi_count:
 
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
-baidu_push: false
+baidu_push: true
 
 # Google Calendar
 # Share your recent schedule to others via calendar page

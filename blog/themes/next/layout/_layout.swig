@@ -9,6 +9,7 @@
 <head>
   {% include '_partials/head.swig' %}
   <title>{% block title %}{% endblock %}</title>
+  <meta name="baidu-site-verification" content="jPhjjLNjzv" />
   {% include '_third-party/analytics/index.swig' %}
 </head>
 
