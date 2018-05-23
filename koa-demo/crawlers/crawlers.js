@@ -43,12 +43,16 @@ class Crawlers {
             timeout: 20000
         };
         options.url = url;
+
+        //在1秒钟内只发起10个请求
+
+       
         return new Promise((resolve, reject) => {
             try {
                 superagent.get(url).end(function (err, res) {
                     // 抛错拦截
                     self.count++;
-                    self.logger.info(url, self.count);
+                    self.logger.warn(url, self.count);
                     if (err) {
                         self.errCount++;
                         reject(err);

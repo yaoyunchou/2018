@@ -30,12 +30,16 @@ class FoodCrawlers extends BasCrawlers {
 
     }
     async start() {
-        let self = this;
+        let self = this,count=1;
         let {dom,$} = await this.getInfo(this.url);
-        $('.widget-group-bar li a').each(async function(){
+        $('.widget-group-bar li a').each( function(){
+            count++;
             let url = $(this).attr('href');
             url = /http:\/\//.test(url)?url:self.domain+url;
-            await self.getCategory(url);
+            setTimeout( async() => {
+                console.log(url+'getCategory'+count);
+                await self.getCategory(url);  
+            }, count*50);
         });
         // let url = $('.widget-group-bar li a').eq(0).attr('href');
         // url = /http:\/\//.test(url) ? url : self.domain + url;
@@ -44,16 +48,20 @@ class FoodCrawlers extends BasCrawlers {
 
     }
     async getCategory(url) {
-        let self = this;
+        let self = this,count = 1;
         let {dom,$} = await self.getInfo(url);
-        $('.food-list li h4 a').each(async function () {
+        $('.food-list li h4 a').each( function () {
+            count++;
             let  bean = {};
             bean.nikeName = $(this).text();
             let url = $(this).attr('href');
             url = /http:\/\//.test(url) ? url : self.domain + url;
-            await self.crawlInfo(url,bean)(bean);
-            //console.log(bean);
             
+            //console.log(bean);
+            setTimeout( async() => {
+                await self.crawlInfo(url,bean)(bean);
+                console.log(url+'crawlinfo'+count);
+            }, count*600);
            
         });
 
