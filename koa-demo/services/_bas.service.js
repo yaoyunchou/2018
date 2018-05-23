@@ -96,7 +96,18 @@ module.exports = class basService {
         }
     }
     async deleteItem(id) {
+        try {
+            let item = {};
+            item = await this.DbModal.remove({_id: id});
+            item = item.length&&item[0];
+            return {
+                isSuccess: true,
+                data: item
+            };
+        } catch (error) {
+            return this.thorwError(error);
 
+        }
     }
     thorwError(err) {
         this.logger.error(err);
