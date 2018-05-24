@@ -28,7 +28,47 @@ class Crawlers {
         this.logger = log4js.getLogger(this.name);
         this.errCount = 0;
         this.count = 0;
-        this.okCount = 0;
+        this.runArr = [];
+        this.waitArr = [];
+    }
+    send() {
+        var self = this;
+        return function (url, resolve, reject) {
+            try {
+                superagent.get(url).end(function (err, res) {
+                    //释放位置
+                    setTimeout(() => {
+                        for (let i = 0; i < self.runArr.length; i++) {
+                            if (self.runArr[i].url === url) {
+                                let goRunItem = self.waitArr.length && self.waitArr.shift();
+                                if (goRunItem) {
+                                    self.runArr.splice(i, 1, goRunItem);
+                                    goRunItem.callback.apply(self, goRunItem.argu);
+                                } else {
+                                    self.runArr.splice(i, 1);
+                                }
+                            }
+                        }
+                    }, 150);
+                    // 抛错拦截
+                    self.count++;
+                    self.logger.warn(url, self.count);
+                    if (err) {
+                        self.errCount++;
+                        reject(err);
+                        self.logger.error(url, self.errCount);
+                        return;
+                    }
+                    let $ = cheerio.load(res.text);
+                    resolve({
+                        dom: res.text,
+                        $: $
+                    });
+                });
+            } catch (error) {
+                this.logger.error(error);
+            }
+        };
     }
     getInfo(url) {
         let self = this;
@@ -43,33 +83,22 @@ class Crawlers {
             timeout: 20000
         };
         options.url = url;
-
-        //在1秒钟内只发起10个请求
-
-       
         return new Promise((resolve, reject) => {
-            try {
-                superagent.get(url).end(function (err, res) {
-                    // 抛错拦截
-                    self.count++;
-                    self.logger.warn(url, self.count);
-                    if (err) {
-                        self.errCount++;
-                        reject(err);
-                        self.logger.error(url, self.errCount);
-                        return;
-                    }
-                    let $ = cheerio.load(res.text);
-                    self.okCount++;
-                    self.logger.info(url, self.okCount);
-                    
-                    resolve({
-                        dom: res.text,
-                        $: $
-                    });
+            //控制并发数为4 
+            if (self.runArr.length <= 4) {
+                self.runArr.push({
+                    url: url,
+                    callback: self.send(),
+                    argu: [url, resolve, reject],
+                    isRun: true
                 });
-            } catch (error) {
-                this.logger.error(error);
+                self.send()(url, resolve, reject);
+            } else {
+                self.waitArr.push({
+                    url: url,
+                    callback: self.send(),
+                    argu: [url, resolve, reject]
+                });
             }
             // request(options, (err, response) => {
             //     if (!err && response.statusCode === '200') {

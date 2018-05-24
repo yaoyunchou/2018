@@ -32,14 +32,16 @@ class FoodCrawlers extends BasCrawlers {
     async start() {
         let self = this,count=1;
         let {dom,$} = await this.getInfo(this.url);
-        $('.widget-group-bar li a').each( function(){
+        $('.widget-group-bar li a').each(async function(){
             count++;
             let url = $(this).attr('href');
             url = /http:\/\//.test(url)?url:self.domain+url;
-            setTimeout( async() => {
-                console.log(url+'getCategory'+count);
-                await self.getCategory(url);  
-            }, count*50);
+            // setTimeout( async() => {
+            //     console.log(url+'getCategory'+count);
+            //     await self.getCategory(url);  
+            // }, count*50);
+            console.log(url+'getCategory'+count);
+            await self.getCategory(url);  
         });
         // let url = $('.widget-group-bar li a').eq(0).attr('href');
         // url = /http:\/\//.test(url) ? url : self.domain + url;
@@ -50,7 +52,7 @@ class FoodCrawlers extends BasCrawlers {
     async getCategory(url) {
         let self = this,count = 1;
         let {dom,$} = await self.getInfo(url);
-        $('.food-list li h4 a').each( function () {
+        $('.food-list li h4 a').each(async function () {
             count++;
             let  bean = {};
             bean.nikeName = $(this).text();
@@ -58,11 +60,12 @@ class FoodCrawlers extends BasCrawlers {
             url = /http:\/\//.test(url) ? url : self.domain + url;
             
             //console.log(bean);
-            setTimeout( async() => {
-                await self.crawlInfo(url,bean)(bean);
-                console.log(url+'crawlinfo'+count);
-            }, count*600);
-           
+            // setTimeout( async() => {
+            //     await self.crawlInfo(url,bean)(bean);
+            //     console.log(url+'crawlinfo'+count);
+            // }, count*600);
+            await self.crawlInfo(url,bean)(bean);
+            console.log(url+'crawlinfo'+count);
         });
 
     }

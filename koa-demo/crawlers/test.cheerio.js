@@ -1,22 +1,9 @@
 const cheerio = require('cheerio');
 const http = require('http');
 const superagent = require('superagent');
-
-
-
-
-
-
-
-
-
 //测试获取的列表数据
-
 class Crawlers {
     constructor() {
-
-    }
-    getList() {
 
     }
     getDetail() {
