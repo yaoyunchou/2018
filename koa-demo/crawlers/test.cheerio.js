@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 const http = require('http');
 const superagent = require('superagent');
+require('./model');
 //测试获取的列表数据
 class Crawlers {
     constructor() {

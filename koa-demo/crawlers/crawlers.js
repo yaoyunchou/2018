@@ -52,7 +52,7 @@ class Crawlers {
                     }, 150);
                     // 抛错拦截
                     self.count++;
-                    self.logger.warn(url, self.count);
+                    self.logger.info(url, self.count);
                     if (err) {
                         self.errCount++;
                         reject(err);

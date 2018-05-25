@@ -8,5 +8,6 @@
 const  router = require('./user.controller');
 require('./design.controller');
 require('./images.controller');
+require('./food.controller');
 
 module.exports =  router;

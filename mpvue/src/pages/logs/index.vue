@@ -9,14 +9,13 @@
 </template>
 
 <script>
-import { formatTime } from '@/utils/index'
+import { formatTime } from '@/utils/formatNumber'
 import card from '@/components/card'
 
 export default {
   components: {
     card
   },
-
   data () {
     return {
       logs: []

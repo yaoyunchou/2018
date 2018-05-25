@@ -47,7 +47,7 @@ app.use(koalog4js.koaLogger(koalog4js.getLogger('http'), {
 }));
 
 //对token进行校验
-app.use(auth);
+//app.use(auth);
 
 app.use(wxRouter.routes());
 app.use(router.routes());

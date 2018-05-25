@@ -19,32 +19,32 @@ module.exports = new Schema({
      */
     category: Number,
     desc: String,
-    calory: Number, //热量 100g/大卡
-    carbohydrate: Number, //碳水化合物 100g/g
-    fat: Number, //脂肪 100g/g
-    protein: Number, //蛋白质 100g/g
-    cellulose: Number, //纤维素 100g/g
-    vitamin_A: Number, //维生素A 100g/g
-    vitamin_B: Number, //维生素B 100g/g  
-    vitamin_C: Number, //维生素C 100g/g
-    vitamin_D: Number, //维生素D 100g/g
-    vitamin_E: Number, //维生素E 100g/g
-    carotene: Number, //胡萝卜素 100g/微克
-    thiamine: Number, //硫胺素 100g/毫克
-    riboflavin: Number, //核黄素 100g//毫克
-    niacin: Number, //烟酸 100g/毫克
-    cholesterol: Number, //胆固醇 100g/毫克
-    magnesium: Number, //镁 100g/毫克
-    calcium: Number, //钙 100g/毫克
+    calory: String, //热量 100g/大卡
+    carbohydrate: String, //碳水化合物 100g/g
+    fat: String, //脂肪 100g/g
+    protein: String, //蛋白质 100g/g
+    cellulose: String, //纤维素 100g/g
+    vitamin_A: String, //维生素A 100g/g
+    vitamin_B: String, //维生素B 100g/g  
+    vitamin_C: String, //维生素C 100g/g
+    vitamin_D: String, //维生素D 100g/g
+    vitamin_E: String, //维生素E 100g/g
+    carotene: String, //胡萝卜素 100g/微克
+    thiamine: String, //硫胺素 100g/毫克
+    riboflavin: String, //核黄素 100g//毫克
+    niacin: String, //烟酸 100g/毫克
+    cholesterol: String, //胆固醇 100g/毫克
+    magnesium: String, //镁 100g/毫克
+    calcium: String, //钙 100g/毫克
    
-    iron: Number, //铁 100g/毫克
-    zinc: Number, //锌 100g/毫克
-    copper: Number, //铜 100g/毫克
-    manganese: Number, //锰 100g/毫克
-    potassium: Number, //钾 100g/毫克
-    phosphorus: Number, //磷 100g/毫克
-    sodium: Number, //钠 100g/毫克
-    selenium: Number, //硒 100g/毫克
+    iron: String, //铁 100g/毫克
+    zinc: String, //锌 100g/毫克
+    copper: String, //铜 100g/毫克
+    manganese: String, //锰 100g/毫克
+    potassium: String, //钾 100g/毫克
+    phosphorus: String, //磷 100g/毫克
+    sodium: String, //钠 100g/毫克
+    selenium: String, //硒 100g/毫克
     created: { 
         type: Schema.Types.Date,
         default: Date.now
