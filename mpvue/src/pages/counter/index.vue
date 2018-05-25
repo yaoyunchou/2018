@@ -3,7 +3,7 @@
     <p>Vuex counter：{{ count }}</p>
     <p>
       <button @click="increment">+</button>
-      <button @click="decrement">-</button>
+      <button @click="searchFood">-</button>
     </p>
 
     <a href="/pages/index/main" class="home">去往首页</a>
@@ -26,6 +26,13 @@ export default {
     },
     decrement () {
       store.commit('decrement')
+    },
+    searchFood(){
+      console.log("!!!")
+      console.log(store);
+      store.dispatch('searchFood',{});
+      console.log(this.foods);
+
     }
   }
 }
