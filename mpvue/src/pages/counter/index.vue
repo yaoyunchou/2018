@@ -28,10 +28,9 @@ export default {
       store.commit('decrement')
     },
     searchFood(){
-      console.log("!!!")
-      console.log(store);
-      store.dispatch('searchFood',{});
-      console.log(this.foods);
+      store.dispatch('searchFood',{}).then(function(data){
+        console.log(data);
+      });
 
     }
   }

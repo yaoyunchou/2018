@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
     "mpvue": "^1.0.8",
     "vuex": "^2.3.1"
   },
