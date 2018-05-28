@@ -6,11 +6,11 @@ var vueLoaderConfig = require('./vue-loader.conf')
 var MpvuePlugin = require('webpack-mpvue-asset-plugin')
 var glob = require('glob')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-function getEntry (rootSrc, pattern) {
+function getEntry(rootSrc, pattern) {
   var files = glob.sync(path.resolve(rootSrc, pattern))
   return files.reduce((res, file) => {
     var info = path.parse(file)
@@ -38,7 +38,7 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.json', 'less', 'scss'],
     alias: {
       'vue': 'mpvue',
       '@': resolve('src')
@@ -88,7 +88,11 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[ext]')
         }
-      }
+      }, {
+        test: /\.less$/,
+        loader: "style-loader!css-loader!less-loader",
+
+      },
     ]
   },
   plugins: [
