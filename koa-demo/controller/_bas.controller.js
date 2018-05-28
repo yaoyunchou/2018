@@ -126,7 +126,7 @@ class BasController {
         let searchOptions = {};
         searchOptions.query = {};
         for (let item in ctx.query){
-            if (item == 'pageSize'||item == 'pageNum') {
+            if (item == 'pageSize'||item == 'pageNum'||searchOptions.query[item] instanceof Number) {
                 searchOptions[item] = parseInt(ctx.query[item]);
               
             }else{

@@ -7,25 +7,26 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    foods:[]
+    food:{}
   },
   mutations: {
-    setFoods: (state,data) => {
-     state.foods = data
+    setFood: (state,data) => {
+     state.food = data
     }
   },
   actions:{
-    async searchFood ({ commit,state },params) {
-      let rs = await axios.get('searchfood',params).catch(error => {
+    async getFoodInfo ({ commit,state },params) {
+      let rs = await axios.get('foodInfo',params).catch(error => {
           throw '网络环境异常,请稍后再试';
       });
     
       if(rs.isSuccess){
-          commit('setFoods',rs.data.list);
+          console.log(rs.data);
+          commit('setFood',rs.data);
           return rs.data;
          
       } else {
-          throw  rs.data.data
+          throw  rs.data
       }
   },
   }
