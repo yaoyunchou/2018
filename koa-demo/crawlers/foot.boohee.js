@@ -51,6 +51,9 @@ class FoodCrawlers extends BasCrawlers {
         });
 
     }
+    async saveImage(url){
+        //保存图片
+    }
     crawlInfo (infoUrl, bean) {
         let self = this;
         bean = bean||{};
