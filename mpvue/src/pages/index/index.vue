@@ -15,7 +15,7 @@
       <a href="javascript:void(0)" v-if="ui.isFoucs" class="weui-search-bar__cancel-btn"  @click="closeSearch" id="search_cancel">取消</a>
     </div>
     <div class="weui-cells weui-cells_access search_show" id="search_show">
-        <div class="weui-cell" v-for="food in foods">
+        <div class="weui-cell" v-for="food in foods"  :key="food._id">
             <div class="weui-cell__bd weui-cell_primary" @click="goDetail(food._id)">
                 <p>{{food.nikeName}}</p>
             </div>
@@ -97,49 +97,7 @@
             </p>
         </a>
     </div>
-    <h3>精品推荐</h3>
-     <scroll-view class="index-list" scroll-y style="height: 1100rpx;" bindscrolltolower="lower"  >
-      <div class="list-in"  >
-        <div class="list-in-left">
-          <img src="/static/images/1.png" mode="widthFix">
-        </div>
-        <div class="list-in-right">
-          <p class="title"></p>
-          <div class="detail">
-            <p>作者:</p>
-            <p>来源:</p>
-          </div>
-        </div>
-        
-      </div>
-       <div class="list-in"  >
-        <div class="list-in-left">
-          <img src="/static/images/1.png" mode="widthFix">
-        </div>
-        <div class="list-in-right">
-          <p class="title"></p>
-          <div class="detail">
-            <p>作者:</p>
-            <p>来源:</p>
-          </div>
-        </div>
-        
-      </div>
-       <div class="list-in"  >
-        <div class="list-in-left">
-          <img src="/static/images/1.png" mode="widthFix">
-        </div>
-        <div class="list-in-right">
-          <p class="title"></p>
-          <div class="detail">
-            <p>作者:</p>
-            <p>来源:</p>
-          </div>
-        </div>
-        
-      </div>
-      <div  class="end-line">我是有底线的！</div>
-    </scroll-view>
+
   </div>
 </template>
 
@@ -195,7 +153,7 @@ export default {
       });
     },
     goDetail(id){
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/food_detail/main?id='+id
       })
     }
@@ -204,12 +162,15 @@ export default {
   created() {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
+  },
+  onUnload(){
+    store.commit('setFoods',[]);
   }
 };
 </script>
 
 <style scoped>
-@import "../../common/lib/weui.wxss";
+
 .weui-grids{
   margin-top:10px;
   clear: both;

@@ -31,7 +31,6 @@ const store = new Vuex.Store({
       });
     
       if(rs.isSuccess){
-          console.log(rs.data.list);
           let foods =  state.foods.concat(rs.data.list);
           commit('setFoods',foods);
           commit('setCount',rs.data.count)

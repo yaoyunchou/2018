@@ -31,7 +31,7 @@ class FoodController extends BasController {
                 searchOptions[item] = parseInt(ctx.query[item]);
               
             }else if(item=='category'){
-                searchOptions[item] = parseInt(ctx.query[item]);
+                searchOptions.query[item] = parseInt(ctx.query[item]);
             }else{
                 searchOptions.query[item] = {$regex:ctx.query[item]};
             }

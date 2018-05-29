@@ -11,6 +11,7 @@ qiniu.conf.SECRET_KEY = QINIU_SecretKey;
 //这个是针对没有登录的用户,这里开发权限但是还是要数据入库 所以有这个东西
 const imagesService = require('../services/images.service');
 
+
 module.exports = async function (ctx, next) {
     //this.req = ctx.req, this.res = ctx.res;
     //构建上传策略函数
@@ -23,7 +24,7 @@ module.exports = async function (ctx, next) {
         return uploadToken;
     }
     //构造上传函数
-    function uploadFile(uptoken, key, readableStream) {
+    function uploadFile(uptoken, fileName, readableStream) {
         var config = new qiniu.conf.Config();
         // 空间对应的机房
         config.zone = qiniu.zone.Zone_z0;

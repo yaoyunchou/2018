@@ -18,7 +18,7 @@ module.exports = new Schema({
      * 
      */
     category: Number,
-    image:String,
+    image:Object,
     desc: String,
     calory: String, //热量 100g/大卡
     carbohydrate: String, //碳水化合物 100g/g

@@ -17,6 +17,9 @@ const BasCrawlers = require('./crawlers');
 /**
  * 通过对薄荷网的分享 这边可以从分类到各个不同的单个数据
  */
+const UploadFiles = require('../utils/upload.files.tools');
+
+const uploadFiles = new UploadFiles('food','http://www.boohee.com');
 
 class FoodCrawlers extends BasCrawlers {
     constructor(name, url, domain) {
@@ -88,7 +91,10 @@ class FoodCrawlers extends BasCrawlers {
             item.phosphorus =  $('.widget-food-detail .nutr-tag dl .dd').eq(24).text()||'';
             item.sodium =  $('.widget-food-detail .nutr-tag dl .dd').eq(25).text()||'';
             item.selenium =  $('.widget-food-detail .nutr-tag dl .dd').eq(26).text()||'';
-            
+            let imgData = await uploadFiles.uploadByUrl($('.widget-food-detail .food-pic img').attr('src'));
+            item.image = {
+                url:imgData.key
+            };
             let backData = self.server.save(item);
         };
        

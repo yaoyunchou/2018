@@ -1,9 +1,9 @@
 <template>
 <div>
      <scroll-view class="index-list" scroll-y style="height: 1100rpx;" @scrolltolower="lower"  >
-      <div class="list-in"  v-for="food in foods">
+      <div class="list-in"  v-for="food in foods" :key = "food._id" @click = goDetail(food)>
         <div class="list-in-left">
-          <img src="/static/images/1.png" mode="widthFix">
+          <comImage :url ="food.image.url"></comImage>
         </div>
         <div class="list-in-right">
           <p class="title">{{food.nikeName}}</p>
@@ -22,6 +22,7 @@
 
 <script>
 import store from "./store";
+import comImage from '@/components/com-image'
 export default {
   data() {},
   computed: {
@@ -34,6 +35,9 @@ export default {
     foods() {
       return store.state.foods;
     }
+  },
+  components:{
+    comImage
   },
   methods: {
     bindViewTap() {
@@ -51,23 +55,33 @@ export default {
       store.dispatch('searchfood',options);
     },
     lower(){
-      if(this.pageNum*10>this.count){
+      if(this.pageNum*10>=this.count){
         return;
       }
-      store.commit('sesetPageNumt',++this.pageNum);
+      let pageNum = this.pageNum+1;
+      store.commit('setPageNum',pageNum);
       this.getFoods();
     },
+    goDetail(food){
+       let url = "/pages/food_detail/main?id="+food._id;
+        wx.navigateTo({
+          url: url
+        })
+    }
   },
  
   onLoad() {
     // 调用应用实例的方法获取全局数据
     this.getFoods();
+  },
+  onUnload(){
+    store.commit('setPageNum',1);
+    store.commit('setFoods',[]);
   }
 };
 </script>
 
 <style scoped>
-@import "../../common/lib/weui.wxss";
 .weui-grids {
   margin-top: 10px;
   clear: both;
@@ -104,6 +118,7 @@ overflow: hidden;}
 text-overflow:ellipsis;
 white-space: nowrap;
 }
+.list-in-left image{ width:190rpx; height:190rpx;}
 </style>
 
 

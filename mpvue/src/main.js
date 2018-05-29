@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 
@@ -16,6 +17,26 @@ export default {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
-    }
+    },
+    tabBar: {
+      backgroundColor: "#2694d2",
+      color: "#fff",
+      selectedColor:"#fff",
+      borderStyle: "#2694d2",
+        list: [
+          {
+            pagePath: "pages/index/main",
+            text: "首页",
+            iconPath: "/static/images/index.png",
+            selectedIconPath: "/static/images/index.png"
+          },
+          {
+            pagePath: "pages/counter/main",
+            text: "个人中心",
+            iconPath: "/static/images/web.png",
+            selectedIconPath: "/static/images/web.png"
+          }
+        ]
+      }
   }
 }
