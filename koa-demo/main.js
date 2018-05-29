@@ -56,6 +56,6 @@ app.use(router.allowedMethods());
 app.use(wxRouter.allowedMethods());
 
 // export default app.listen(8070);
-module.exports =  app.listen(8070, () => {
-    console.log('Koa is listening in 8070');
+module.exports =  app.listen(8090, () => {
+    console.log('Koa is listening in 8090');
 });

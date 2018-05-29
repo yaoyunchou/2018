@@ -102,21 +102,21 @@
 </template>
 
 <script>
-import store from './store'
+import store from "./store";
 export default {
   data() {
     return {
       motto: "Hello World",
-      keyword:'',
+      keyword: "",
       userInfo: {},
-      ui:{
-        isFoucs:false
+      ui: {
+        isFoucs: false
       }
     };
   },
-   computed: {
-    foods () {
-      return store.state.foods
+  computed: {
+    foods() {
+      return store.state.foods;
     }
   },
   methods: {
@@ -139,60 +139,71 @@ export default {
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
-    goSearch(){
+    goSearch() {
       this.ui.isFoucs = true;
     },
-    closeSearch(){
+    closeSearch() {
       this.ui.isFoucs = false;
-      store.commit('setFoods',[]);
-      this.keyword = '';
+      store.commit("setFoods", []);
+      this.keyword = "";
     },
-    searchTip(){
-      store.dispatch('searchFood',{keyword:this.keyword}).then(function(data){
-        //console.log(data);
-      });
+    searchTip() {
+      store
+        .dispatch("searchFood", { keyword: this.keyword })
+        .then(function(data) {
+          //console.log(data);
+        });
     },
-    goDetail(id){
+    goDetail(id) {
       wx.navigateTo({
-        url: '/pages/food_detail/main?id='+id
-      })
+        url: "/pages/food_detail/main?id=" + id
+      });
     }
   },
-
+  onShareAppMessage: function(res) {
+    return {
+      withShareTicket: true,
+      title: "自定义转发标题",
+      path: "/page/user?id=123"
+    };
+  },
   created() {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
   },
-  onUnload(){
-    store.commit('setFoods',[]);
+  onUnload() {
+    store.commit("setFoods", []);
   }
 };
 </script>
 
 <style scoped>
-
-.weui-grids{
-  margin-top:10px;
+.weui-grids {
+  margin-top: 10px;
   clear: both;
 }
-#search_show{
-  margin-top:0px;
+#search_show {
+  margin-top: 0px;
 }
-.weui-grid__icon img{ width:100%; height:100%;}
-.icon-small{ height:38rpx;}
-.index-list .list-in{
+.weui-grid__icon img {
+  width: 100%;
+  height: 100%;
+}
+.icon-small {
+  height: 38rpx;
+}
+.index-list .list-in {
   box-sizing: border-box;
   height: 240rpx;
   margin-bottom: 20rpx;
-  padding:20rpx 25rpx;
+  padding: 20rpx 25rpx;
   font-family: "微软雅黑";
   background: #fff;
 }
-.end-line{
+.end-line {
   text-align: center;
-  background:#fff;
+  background: #fff;
 }
-
 </style>
 
 
