@@ -163,8 +163,8 @@ export default {
   onShareAppMessage: function(res) {
     return {
       withShareTicket: true,
-      title: "自定义转发标题",
-      path: "/page/user?id=123"
+      title: "测试积分",
+      path: "pages/index/main"
     };
   },
   created() {
