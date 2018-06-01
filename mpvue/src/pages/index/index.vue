@@ -162,7 +162,6 @@ export default {
   },
   onShareAppMessage: function(res) {
     return {
-      withShareTicket: true,
       title: "测试积分",
       path: "pages/index/main"
     };
@@ -170,6 +169,9 @@ export default {
   created() {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
+    wx.showShareMenu({
+      withShareTicket: true
+    });
   },
   onUnload() {
     store.commit("setFoods", []);
