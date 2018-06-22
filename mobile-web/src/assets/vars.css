@@ -1,0 +1,15 @@
+:root {
+  --vi: #ff9900;
+  --gray: #f5f5f5;
+  --color: #4e4b4c;
+  --font-family:'微软雅黑','黑体','宋体';
+  --font-size:15px;
+  --font: normal normal normal var(--font-size)/var(--font-size) var(--font-family);
+  --basFont:15;
+  --pad-left: 30px;
+  --cell-border:2px solid #f5f5f5;
+}
+
+.fl{
+  float: left;
+}
