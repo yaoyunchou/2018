@@ -22,7 +22,6 @@ disqus:
 
 ## CSS代码
 
-
 ```css
 p.back-to-top{
     //美化样式，可以根据需要更改
@@ -68,5 +67,4 @@ $(function(){
 });
 ```
 
-
-　**需要引入jQuery文件**
+** 需要引入jQuery文件 **
