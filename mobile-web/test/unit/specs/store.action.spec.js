@@ -1,9 +1,11 @@
-import store from '../../store/base'
+import store from '@/store/base'
 console.log(store)
 var testStroe = new store.Store()
 
 describe('vuex store action base', () => {
-  console.log(testStroe)
+  console.log(testStroe.action)
+  console.log(store.action)
+  //console.log(testStroe.action)
   test('test this is ok', () => {
     expect(true).toBe(true)
   })

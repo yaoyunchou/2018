@@ -1,6 +1,4 @@
-import utils from '@/utils'
-
-import { mutation, action, getter } from '../base/_decorators'
+const { mutation, action, getter } = require('../base/_decorators')
 
 class Store {
   constructor (state) {
@@ -46,7 +44,7 @@ class Store {
   }
 
   throwError (err) {
-    utils.error.doThrow(err)
+    // utils.error.doThrow(err)
   }
 
   isnull (val, nullval) {
