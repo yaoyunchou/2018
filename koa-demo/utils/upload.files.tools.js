@@ -42,22 +42,27 @@ class UploadFiles {
         return new Promise((resolve, reject) => {
             this.formUploader.putStream(self.token, fileName, readableStream, this.putExtra, function (respErr,
                 respBody, respInfo) {
-                if (respErr) {
-                    throw respErr;
+                try {
+                    if (respErr) {
+                        throw respErr;
+                    }
+                    if (respInfo.statusCode == 200) {
+                        imagesService.save({
+                            url: respBody.key,
+                            ctg: self.name
+                        });
+                        resolve(respBody);
+                    } else {
+                        reject(respBody);
+                    }
+                } catch (error) {
+                    throw error;
                 }
-                if (respInfo.statusCode == 200) {
-                    imagesService.save({
-                        url:respBody.key,
-                        ctg:self.name
-                    });
-                    resolve(respBody);
-                } else {
-                    reject(respBody);
-                }
+
             });
         });
     }
-    deleteFile(){
+    deleteFile() {
 
     }
     createName() {
@@ -65,7 +70,7 @@ class UploadFiles {
     }
     getNameByUrl(url) {
         let extName = /\.\w+$/.exec(url)[0].toLowerCase();
-        return this.name + '/' + uuid.v1()  + extName;
+        return this.name + '/' + uuid.v1() + extName;
     }
     async uploadByUrl(url, domain) {
         let path = './test.gif';
@@ -94,9 +99,3 @@ class UploadFiles {
 }
 
 module.exports = UploadFiles;
-
-// function test() {
-//     let qnUplaod = new UploadFiles('testUrl');
-//     qnUplaod.uploadByUrl('http://i.meizitu.net/thumbs/2018/01/117406_24c17_236.jpg','http://i.meizitu.net/');
-// }
-// test();

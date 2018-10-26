@@ -131,6 +131,8 @@ export default {
               psw: self.ruleForm1.pass
             }).then(function(data){
               if(data.isSuccess){
+                console.log(data);
+              self.setToken(data.data.token);
                  self.$router.push({name: 'Admin'})
               }
             });
@@ -142,6 +144,8 @@ export default {
               age:self.ruleForm2.age
             }).then(function(data){
               console.log(data);
+              self.setToken(data.token);
+              self.$router.push({name: 'Admin'})
             });
           }
 

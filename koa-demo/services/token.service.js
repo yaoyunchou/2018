@@ -2,8 +2,8 @@
  * 用于处理无状态的
  */
 const Service = require('./_bas.service');
-const userSvc = require('./user.service');
-
+const {getExpiresIn} = require('../utils');
+ 
 const tokenSchema = require('../model/schemas/token.schema');
 
 class Token extends Service {
@@ -16,65 +16,43 @@ class Token extends Service {
      */
     async getToken(options) {
         try {
-            let tokenInfo = await this.DbModal.findOneAndUpdate(options, {acces_token:Date.now()+7200});
+            let tokenInfo = await this.DbModal.findOne(options);
             return {
-                isSuccess:true,
-                acces_token:tokenInfo._id
+                isSuccess: true,
+                data:{
+                    expires_in:tokenInfo.expires_in,
+                    _id:tokenInfo._id,
+                    userId:tokenInfo.userId,
+                    access_token: tokenInfo.access_token
+                }
+                
             };
         } catch (error) {
-            this.logger.error('token','未找到token,重新生成token!');
-            if(options.userId){
-                let tokenInfo = await this.save({userId:options.userId,expires_in:Date.now()+7200});
-                return {
-                    isSuccess:true,
-                    acces_token:tokenInfo.data._id
-                };
-            }else{
-                this.thorwError(error);
-            }
+            this.logger.error('token', '未找到token!');
+            return this.thorwError(error);
         }
     }
     /**
-     * 检查token,如果超时就会拦截到登陆页面
-     * 如果没有超时就会更新页面
+     * 更新token
      */
-    async checkToken(id){
+    async updateToken(options) {
         try {
-            let tokenInfo = this.DbModal.findById(id);
-            let user = userSvc.getItem({_id:tokenInfo.userId});
-            this.content.setUser(user);
-            if(tokenInfo.expires_in<Date.now()){
-                return {
-                    isSuccess:false,
-                    msg:'登陆超时,请重新登陆!'
-                };
-            }else{
-                tokenInfo = await this.DbModal.findByIdAndUpdate(id,{expires_in:Date.now()+7200});
-                return {
-                    isSuccess:true,
-                    token:tokenInfo,
-                    msg:'更新Token成功!'
-                };
-            }
-        } catch (error) {
-            this.thorwError(error);
-        }
-      
-    }
-
-
-    /**
-     * 更新token 好像没什么用
-    */
-    async updateToken(options){
-        try {
-            let tokenInfo = await this.DbModal.findByIdAndUpdate(options,{userId:1,acces_token:1});
+            let tokenInfo = await this.DbModal.findOneAndUpdate(options, { $set: { expires_in: getExpiresIn()}},{
+                userId: 1,
+                acces_token: 1
+            });
             return {
-                isSuccess:true,
-                acces_token:tokenInfo.acces_token,
-                msg:'更新token成功!'
+                isSuccess: true,
+                data:{
+                    expires_in:tokenInfo.expires_in,
+                    _id:tokenInfo._id,
+                    userId:tokenInfo.userId,
+                    access_token: tokenInfo.access_token
+                },
+                msg: '更新token成功!'
             };
         } catch (error) {
+            this.logger.error('token','更新token失败');
             this.thorwError(error);
         }
     }

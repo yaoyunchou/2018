@@ -11,7 +11,7 @@ module.exports = new Schema({
 
     phone: {
         type: Schema.Types.String,
-        //unique: true,
+        unique: true,
         require: true
     },
     id: {

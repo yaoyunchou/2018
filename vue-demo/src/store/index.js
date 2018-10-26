@@ -23,6 +23,10 @@ export default new Vuex.Store({
     
   },
   mutations:{
-   
+    setToken(state,token){
+      axios.defaults.headers.common['token'] = token;
+      sessionStorage.setItem('token',token)
+      state.token = token;
+    }
   }    
 });

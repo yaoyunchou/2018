@@ -6,7 +6,6 @@ const router = new Router({
     prefix: '/api'
 });
 const log4js = require('log4js');
-
 /**
  * 
  */
@@ -31,34 +30,42 @@ class BasController {
     }
     /**
      * 
-     * @param {Fun} handler 
-     * @param {String} msg 
-     * @param {Boolean} isAsync 
+     * @param {Fun} handler  包裹controller 对结果进行处理
+     * @param {Boolean} isAuth 方法是否需要授权
+     * @param {String} msg   自定义错误提示
+     * @param {Boolean} isAsync  是否是异步方法
      */
-    handlerwarp(handler, select, msg, isAsync = true) {
+    handlerwarp(handler, select, isAuth = false, msg, isAsync = true) {
         handler.bind(this);
-        let backData;
+        let backData,self = this;
         try {
             if (isAsync) {
                 return async (ctx, next) => {
-                    let backData = await handler.call(this, ctx, select);
-
-                    if (backData.isSuccess) {
-                        backData.msg = msg || '获取数据成功!';
-                        this.reply(ctx, backData);
-                    } else if (backData.err.code === 11000) {
-
-                        this.reply(ctx, {
-                            isSuccess: false,
-                            msg: '信息已被使用'
-                        }, 500);
-                    } else {
-
-                        this.reply(ctx, {
-                            isSuccess: false,
-                            msg: backData.msg || '接口出错了!'
-                        }, 500);
-                    }
+                    let backData = await handler.call(self, ctx, select);
+                    ctx.authenticate(async function (err, user) {
+                        if (!err|| !isAuth) {
+                            if (backData.isSuccess) {
+                                backData.msg = msg || '获取数据成功!';
+                                self.reply(ctx, backData);
+                            } else if (backData.err.code === 11000) {
+        
+                                self.reply(ctx, {
+                                    isSuccess: false,
+                                    msg: '信息已被使用'
+                                }, 500);
+                            } else {
+                                self.reply(ctx, {
+                                    isSuccess: false,
+                                    msg: backData.msg || '接口出错了!'
+                                }, 500);
+                            }
+                        } else {
+                            self.reply(ctx, {
+                                isSuccess: false,
+                                msg: '授权失败!'
+                            }, 'json', 401);
+                        }
+                    });
                     await next();
                 };
             } else {
@@ -125,16 +132,16 @@ class BasController {
     getList(ctx, select) {
         let searchOptions = {};
         searchOptions.query = {};
-        for (let item in ctx.query){
-            if (item == 'pageSize'||item == 'pageNum'||searchOptions.query[item] instanceof Number) {
+        for (let item in ctx.query) {
+            if (item == 'pageSize' || item == 'pageNum' || searchOptions.query[item] instanceof Number) {
                 searchOptions[item] = parseInt(ctx.query[item]);
-              
-            }else{
-                searchOptions.query[item] = {$regex:ctx.query[item]};
+
+            } else {
+                searchOptions.query[item] = {
+                    $regex: ctx.query[item]
+                };
             }
-        
         }
-      
         return this.service.getList(searchOptions, select);
     }
 

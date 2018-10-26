@@ -5,9 +5,9 @@ function warpAxios (method,url,options){
     options = options||{};
     options.url = url;
     options.method = method;
-    
     return new Promise((resolve,reject)=>{
         axios(options).then(function(response){
+            console.log('!!!');
             if(response.data.isSuccess){
                 resolve(response.data);
             }else{

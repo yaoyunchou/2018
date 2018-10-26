@@ -1,23 +1,20 @@
 const BasController = require('./_bas.controller');
 const tokenServer = require('../services/token.service');
+const {getExpiresIn} = require('../utils');
 const userService = require('../services/user.service');
+const uuid = require('node-uuid');
+const signture = require('crypto');
+const {
+    SecrectKey
+} = require('../config/index');
 
 class UserController extends BasController {
     constructor(name) {
-        super(name,userService);
+        super(name, userService);
         this.addRouter('get', '/user/list', this.handlerwarp(this.getUsers));
         this.addRouter('get', '/user', this.handlerwarp(this.getItem));
-        this.addRouter('post', '/user', this.handlerwarp(this.createItem));
         this.addRouter('post', '/user/login', this.login.bind(this));
-
-    }
-
-    createUsers() {
-        return {
-            name: 'yao',
-            gender: 'f',
-            age: 18
-        };
+        this.addRouter('post', '/user/register', this.register.bind(this));
 
     }
     getUsers(options) {
@@ -34,11 +31,14 @@ class UserController extends BasController {
      * @param {obj} options 
      */
     async login(ctx, next) {
-        let userInfo = await this.service.getItem({phone: ctx.request.body.phone});
+        let userInfo = await this.service.getItem({
+            phone: ctx.request.body.phone
+        });
 
         if (userInfo.isSuccess) {
-            if (userInfo.data.psw === ctx.request.body.psw) {
-                let tokenInfo = await tokenServer.getToken({
+            let password = signture.createHmac('sha1', SecrectKey).update(ctx.request.body.psw).digest().toString('hex');
+            if (userInfo.data.psw === password) {
+                let tokenInfo = await tokenServer.updateToken({
                     userId: userInfo.data._id
                 });
                 if (tokenInfo.isSuccess) {
@@ -47,9 +47,8 @@ class UserController extends BasController {
                         isSuccess: true,
                         data: {
                             userId: userInfo.data._id,
-                            token: tokenInfo.acces_token
+                            token: tokenInfo.data.access_token
                         }
-
                     });
                 } else {
 
@@ -58,11 +57,18 @@ class UserController extends BasController {
                      * 这里还要处理更新token
                      * 登出的时候是否处理成把时间换成现在就好了
                      */
-                    // return {
-                    //     isSuccess: false,
-                    //     msg: '获取token失败！'
-                    // };
-
+                    let token = await tokenServer.save({
+                        userId: userInfo.data._id,
+                        expires_in: getExpiresIn(),
+                        access_token: uuid.v1()
+                    });
+                    this.reply(ctx, {
+                        isSuccess: true,
+                        data: {
+                            userId: userInfo.data._id,
+                            token: token.data.access_token
+                        }
+                    });
                 }
             } else {
                 this.reply(ctx, {
@@ -79,6 +85,43 @@ class UserController extends BasController {
 
         await next();
 
+    }
+
+    async register(ctx, next) {
+        let user = ctx.request.body;
+        user = await userService.save(user);
+        user.psw = signture.createHmac('sha1', SecrectKey).update(user.psw).digest().toString('hex');
+        if (user.isSuccess) {
+            let token = await tokenServer.save({
+                userId: user.data._id,
+                expires_in: getExpiresIn(),
+                access_token: uuid.v1()
+            });
+            if (token.isSuccess) {
+                this.reply(ctx, {
+                    isSuccess: true,
+                    data: {
+                        _id: user.data._id,
+                        nikeName: user.data.nikeName,
+                        phone: user.data.phone,
+                        token: token.data.access_token
+                    },
+                    msg: '创建用户,并授权成功！'
+                });
+            } else {
+                this.reply(ctx, {
+                    isSuccess: false,
+                    msg: '创建用户成功，授权失败！'
+                });
+            }
+
+        } else {
+            this.reply(ctx, {
+                isSuccess: false,
+                msg: '用户名已经存在！'
+            });
+        }
+        next();
     }
     /**
      * 登出,将token的时间换成当前时间
